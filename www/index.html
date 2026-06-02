@@ -79,7 +79,7 @@
         body {
             background-color: var(--md-surface); color: var(--md-on-surface);
             -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease;
-            padding-top: env(safe-area-inset-top);
+            padding-top: max(32px, env(safe-area-inset-top)); 
             overflow: hidden; 
         }
 
@@ -552,14 +552,14 @@
                     </div>
                 </div>
                 
-                <div class="flex gap-2">
-                    <select id="waveMode" class="flex-1 bg-surface rounded-xl p-3 font-bold text-sm outline-none border-none">
+                <div class="flex gap-2 items-center">
+                    <select id="waveMode" class="flex-1 min-w-0 bg-surface rounded-xl p-3 font-bold text-xs outline-none border-none truncate">
                         <option value="single" data-i18n="wave_opt_single">1 Gelombang Berjalan</option>
                         <option value="standing" data-i18n="wave_opt_standing">Gelombang Berdiri (Stasioner)</option>
                         <option value="interference" data-i18n="wave_opt_beat">Pelayangan (Interferensi Beat)</option>
                     </select>
-                    <button onclick="toggleWavePlay()" id="wavePlayBtn" class="bg-primary text-onPrimary p-3 rounded-xl btn-morph flex items-center justify-center aspect-square shadow-sm">
-                        <i data-lucide="pause"></i>
+                    <button onclick="toggleWavePlay()" id="wavePlayBtn" class="w-14 h-14 shrink-0 bg-primary text-onPrimary rounded-xl btn-morph flex items-center justify-center shadow-sm">
+                        <i data-lucide="pause" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
@@ -653,20 +653,20 @@
         </section>
     </main>
 
-    <nav class="fixed left-4 right-4 bg-surfaceVariant rounded-full flex justify-between p-2 shadow-2xl z-40 border border-outline/10" style="bottom: calc(1rem + env(safe-area-inset-bottom));">
+        <nav class="fixed left-4 right-4 bg-primaryContainer text-onPrimaryContainer rounded-full flex justify-between p-2 shadow-2xl z-40 border border-outline/10" style="bottom: calc(1rem + env(safe-area-inset-bottom));">
         <button onclick="switchTab('stats')" id="nav-stats" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 flex-grow bg-primary text-onPrimary">
             <i data-lucide="bar-chart" class="w-5 h-5 shrink-0"></i>
             <span class="font-bold text-sm tab-text overflow-hidden whitespace-nowrap" data-i18n="tab_stats">Stats</span>
         </button>
-        <button onclick="switchTab('math')" id="nav-math" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 text-onSurfaceVariant overflow-hidden">
+        <button onclick="switchTab('math')" id="nav-math" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 text-onPrimaryContainer/70 overflow-hidden">
             <i data-lucide="pi" class="w-5 h-5 shrink-0"></i>
             <span class="font-bold text-sm hidden tab-text whitespace-nowrap" data-i18n="tab_math">Math</span>
         </button>
-        <button onclick="switchTab('physics')" id="nav-physics" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 text-onSurfaceVariant overflow-hidden">
+        <button onclick="switchTab('physics')" id="nav-physics" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 text-onPrimaryContainer/70 overflow-hidden">
             <i data-lucide="ruler" class="w-5 h-5 shrink-0"></i>
             <span class="font-bold text-sm hidden tab-text whitespace-nowrap" data-i18n="tab_phys">Fisika</span>
         </button>
-        <button onclick="openModal('settingsModal')" class="capsule-btn flex items-center justify-center rounded-full px-4 py-3 text-onSurfaceVariant ml-1 bg-surface/50">
+        <button onclick="openModal('settingsModal')" class="capsule-btn flex items-center justify-center rounded-full px-4 py-3 text-onPrimaryContainer/60 ml-1 bg-surface/30">
             <i data-lucide="settings" class="w-5 h-5"></i>
         </button>
     </nav>
@@ -1065,7 +1065,7 @@
             ['stats', 'math', 'physics'].forEach(id => {
                 const btn = document.getElementById(`nav-${id}`);
                 btn.classList.remove('flex-grow', 'bg-primary', 'text-onPrimary');
-                btn.classList.add('text-onSurfaceVariant');
+                btn.classList.add('text-onPrimaryContainer/70');
                 btn.querySelector('.tab-text').classList.add('hidden');
             });
 
@@ -1073,7 +1073,7 @@
             newSec.classList.add('active');
             const activeNav = document.getElementById(`nav-${tabId}`);
             activeNav.classList.add('flex-grow', 'bg-primary', 'text-onPrimary');
-            activeNav.classList.remove('text-onSurfaceVariant');
+            activeNav.classList.remove('text-onPrimaryContainer/70');
             activeNav.querySelector('.tab-text').classList.remove('hidden');
             
             currentTabId = tabId;
@@ -1640,12 +1640,22 @@
             setTimeout(() => {
                 if (window.Capacitor && window.Capacitor.Plugins) {
                     const capApp = window.Capacitor.Plugins.App;
+                    const capStatusBar = window.Capacitor.Plugins.StatusBar;
+                    
                     if (capApp) {
-                        capApp.addListener('backButton', () => { 
-                            if (modalStack.length > 0) window.history.back(); else capApp.exitApp(); 
+                        capApp.addListener('backButton', () => {
+                            if (modalStack.length > 0) {
+                                window.history.back();
+                            } else if (currentTabId !== 'stats') {
+                                switchTab('stats');
+                            } else {
+                                capApp.exitApp();
+                            }
                         });
                     }
-                    if (window.Capacitor.Plugins.StatusBar) window.Capacitor.Plugins.StatusBar.hide().catch(()=>{});
+                    if (capStatusBar) {
+                        capStatusBar.hide().catch(()=>{});
+                    }
                 }
             }, 500);
         });
