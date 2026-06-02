@@ -1,0 +1,6 @@
+{
+  "appId": "com.aplikasi.baru", 
+  "appName": "Nama Aplikasi",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
