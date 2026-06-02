@@ -1054,13 +1054,18 @@
             if (modalStack.length > 0) {
                 const lastModal = modalStack.pop();
                 document.getElementById(lastModal).classList.remove('active');
+            } else if (e.state && e.state.tab) {
+                switchTab(e.state.tab, true);
+            } else {
+                switchTab('stats', true);
             }
         });
 
         // ================= UI, SCROLL MEMORY NATIVE =================
         let currentTabId = 'stats';
 
-        function switchTab(tabId) {
+        function switchTab(tabId, fromHistory = false) {
+            if (tabId === currentTabId) return;
             document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
             ['stats', 'math', 'physics'].forEach(id => {
                 const btn = document.getElementById(`nav-${id}`);
@@ -1076,6 +1081,9 @@
             activeNav.classList.remove('text-onPrimaryContainer/70');
             activeNav.querySelector('.tab-text').classList.remove('hidden');
             
+            if (!fromHistory) {
+                window.history.pushState({ tab: tabId }, '');
+            }
             currentTabId = tabId;
 
             // Memanggil resize secara asinkron agar DOM sempat dirender browser
@@ -1643,20 +1651,14 @@
                     const capStatusBar = window.Capacitor.Plugins.StatusBar;
                     
                     if (capApp) {
-                        capApp.addListener('backButton', () => {
-                            if (modalStack.length > 0) {
-                                window.history.back();
-                            } else if (currentTabId !== 'stats') {
-                                switchTab('stats');
-                            } else {
-                                capApp.exitApp();
-                            }
-                        });
+                        capApp.addListener('backButton', () => { window.history.back(); });
                     }
+                    
                     if (capStatusBar) {
                         capStatusBar.hide().catch(()=>{});
                     }
                 }
+                window.history.replaceState({ tab: 'stats' }, '');
             }, 500);
         });
     </script>
