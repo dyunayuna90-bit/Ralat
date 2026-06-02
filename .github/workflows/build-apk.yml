@@ -39,9 +39,13 @@ jobs:
           APP_VERSION=$(node -p "require('./package.json').version")
           APP_CODE=$(echo $APP_VERSION | sed 's/\.//g')
           
-          # Ekstrak appId dari capacitor.config.json buat path dinamis
+          # Ekstrak appId dan appName dari capacitor.config.json
           APP_ID=$(node -p "require('./capacitor.config.json').appId")
+          APP_NAME=$(node -p "require('./capacitor.config.json').appName")
           DIR_PATH=$(echo $APP_ID | tr '.' '/')
+          
+          # Inject nama aplikasi ke strings.xml Android
+          sed -i "s/<string name=\"app_name\">.*<\/string>/<string name=\"app_name\">$APP_NAME<\/string>/g" android/app/src/main/res/values/strings.xml
           
           sed -i -E "s/versionCode [0-9]+/versionCode $APP_CODE/g" android/app/build.gradle
           sed -i -E "s/versionName \"[^\"]+\"/versionName \"$APP_VERSION\"/g" android/app/build.gradle
