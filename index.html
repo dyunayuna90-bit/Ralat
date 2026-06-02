@@ -101,7 +101,7 @@
         .morph-container.open { grid-template-rows: 1fr; }
         .morph-inner { overflow: hidden; }
 
-        .tab-section { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 6rem; display: none; }
+        .tab-section { position: absolute; inset: 0; overflow-y: auto; padding-bottom: calc(6rem + env(safe-area-inset-bottom)); display: none; }
         .tab-section.active { display: block; }
 
         .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 50;}
@@ -653,7 +653,7 @@
         </section>
     </main>
 
-    <nav class="fixed bottom-4 left-4 right-4 bg-surfaceVariant rounded-full flex justify-between p-2 shadow-2xl z-40 border border-outline/10">
+    <nav class="fixed left-4 right-4 bg-surfaceVariant rounded-full flex justify-between p-2 shadow-2xl z-40 border border-outline/10" style="bottom: calc(1rem + env(safe-area-inset-bottom));">
         <button onclick="switchTab('stats')" id="nav-stats" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 flex-grow bg-primary text-onPrimary">
             <i data-lucide="bar-chart" class="w-5 h-5 shrink-0"></i>
             <span class="font-bold text-sm tab-text overflow-hidden whitespace-nowrap" data-i18n="tab_stats">Stats</span>
@@ -672,7 +672,7 @@
     </nav>
 
     <div id="settingsModal" class="modal-overlay modal-bottom fixed inset-0 bg-black/80 flex items-end">
-        <div class="modal-content w-full bg-surface rounded-t-[2rem] p-6 pb-12 shadow-2xl relative">
+        <div class="modal-content w-full bg-surface rounded-t-[2rem] p-6 shadow-2xl relative" style="padding-bottom: calc(3rem + env(safe-area-inset-bottom));">
             <div class="modal-grabber"></div>
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-black flex items-center gap-2 text-primary">Ralat</h2>
