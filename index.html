@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ralat - Absolute Monster</title>
+    <title>Ralat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
@@ -115,7 +115,7 @@
 
         .modal-grabber { width: 40px; height: 5px; background-color: var(--md-outline); border-radius: 10px; margin: 0 auto 16px auto; opacity: 0.3; }
 
-        .ai-gradient-text { background: linear-gradient(to right, var(--md-primary), #a855f7, var(--md-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto; animation: shine 3s linear infinite; }
+        .ai-gradient-text { background: linear-gradient(to right, var(--md-primary), var(--md-primary-container), var(--md-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto; animation: shine 3s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
 
         input, select, textarea { border: 2px solid transparent; transition: border-color 0.3s; }
@@ -128,14 +128,12 @@
 
     <main id="main-content" class="flex-1 mt-6 relative w-full h-full">
         
-        <!-- ==================== TAB 1: STATISTIKA ==================== -->
         <section id="tab-stats" class="tab-section active animate-fade-in px-4 pt-4">
             <div class="mb-6">
                 <h2 class="text-4xl font-black mb-1 tracking-tight" data-i18n="stats_title">Statistika</h2>
                 <p class="text-sm text-onSurfaceVariant font-medium" data-i18n="stats_desc">Analisis Data, Distribusi & AI Insight.</p>
             </div>
 
-            <!-- Analisis Data Utama -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-start mb-2">
                     <label class="block text-sm font-bold text-onSurfaceVariant" data-i18n="stats_input_label">Dataset (Pisahkan dgn koma/spasi)</label>
@@ -143,7 +141,7 @@
                 </div>
                 <div id="info_stats_basic" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_basic_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_basic_ex"></p></div></div></div>
 
-                <textarea id="dataInput" rows="3" class="w-full bg-surface text-onSurface rounded-2xl p-4 resize-none font-mono" placeholder="10.5, 11.2, 10.8, 12.0"></textarea>
+                <textarea id="dataInput" rows="3" class="w-full bg-surface text-onSurface rounded-2xl p-4 resize-none font-mono" data-i18n-placeholder="stats_input_ph"></textarea>
                 <button onclick="calculateStats()" class="btn-morph mt-4 w-full bg-primary text-onPrimary font-bold py-4 rounded-2xl flex items-center justify-center gap-2">
                     <i data-lucide="calculator"></i> <span data-i18n="stats_btn">Analisis Data Tunggal</span>
                 </button>
@@ -154,7 +152,9 @@
                     <div class="bg-primaryContainer text-onPrimaryContainer rounded-[2rem] p-6 mb-6 mt-2 relative overflow-hidden">
                         <div class="flex justify-between items-center mb-4 border-b border-onPrimaryContainer/10 pb-2">
                             <h3 class="font-black text-xl flex items-center gap-2"><i data-lucide="bar-chart-2"></i> <span data-i18n="stats_res_title">Hasil Analisis</span></h3>
-                            <button onclick="askDynamicAI('stats')" class="bg-surface text-primary px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 active:scale-90 transition-transform shadow-sm">AI Insight ✨</button>
+                            <button onclick="askDynamicAI('stats')" class="bg-surface text-primary px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 active:scale-90 transition-transform shadow-sm">
+                                <span data-i18n="ai_insight">AI Insight</span>
+                            </button>
                         </div>
                         <div class="grid grid-cols-2 gap-y-5 gap-x-4 mb-4">
                             <div><p class="text-xs opacity-70 font-semibold" data-i18n="st_n">Jumlah (N)</p><p class="font-black text-2xl" id="resN">-</p></div>
@@ -171,14 +171,13 @@
                             <div class="w-full aspect-[2/1] relative"><canvas id="distCanvas" class="absolute top-0 left-0 w-full h-full"></canvas></div>
                         </div>
                         <div id="aiBox_stats" class="hidden mt-4 bg-surface rounded-xl p-4 border border-outline/10 relative">
-                            <div class="flex items-center gap-2 mb-2 text-primary"><span class="text-xs font-bold uppercase tracking-wider ai-gradient-text">AI Insight ✨</span></div>
+                            <div class="flex items-center gap-2 mb-2 text-primary"><span class="text-xs font-bold uppercase tracking-wider ai-gradient-text" data-i18n="ai_insight">AI Insight</span></div>
                             <p id="aiOut_stats" class="text-sm font-medium leading-relaxed text-onSurface opacity-90"></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Propagasi Ralat -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="sigma" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_prop">Propagasi Ralat</span></h3>
@@ -186,12 +185,12 @@
                 </div>
                 <div id="info_stats_prop" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_prop_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_prop_ex"></p></div></div></div>
                 <div class="grid grid-cols-2 gap-2 mb-2">
-                    <input type="number" id="propX" placeholder="Nilai X" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
-                    <input type="number" id="propDX" placeholder="Ralat ΔX" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="propX" data-i18n-placeholder="prop_x" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="propDX" data-i18n-placeholder="prop_dx" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
                 </div>
                 <div class="grid grid-cols-2 gap-2 mb-3">
-                    <input type="number" id="propY" placeholder="Nilai Y" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
-                    <input type="number" id="propDY" placeholder="Ralat ΔY" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="propY" data-i18n-placeholder="prop_y" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="propDY" data-i18n-placeholder="prop_dy" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="calcProp('add')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl text-sm">Z = X + Y</button>
@@ -200,20 +199,18 @@
                 <div id="propResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-xl text-primary" id="propResult">-</div></div></div>
             </div>
 
-            <!-- Persentil & Kuartil -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="percent" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_perc">Persentil & Kuartil</span></h3>
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="percent" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_perc">Kuartil & Persentil</span></h3>
                     <button onclick="toggleCardInfo('stats_perc')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
                 <div id="info_stats_perc" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_perc_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_perc_ex"></p></div></div></div>
-                <input type="text" id="percData" placeholder="Dataset (Koma/Spasi)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-2">
-                <input type="number" id="percP" placeholder="Cari Persentil Ke- (1-99)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-3 text-center">
-                <button onclick="calcPercentile()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung Persentil</button>
+                <input type="text" id="percData" data-i18n-placeholder="stats_input_label" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-2">
+                <input type="number" id="percP" data-i18n-placeholder="stat_perc_p" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-3 text-center">
+                <button onclick="calcPercentile()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_perc_btn">Hitung Persentil</button>
                 <div id="percResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="percResult">-</div></div></div>
             </div>
 
-            <!-- Uji Hipotesis -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="flask-conical" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_ttest">Uji T-Test (1 Sampel)</span></h3>
@@ -221,16 +218,15 @@
                 </div>
                 <div id="info_stats_ttest" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_ttest_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_ttest_ex"></p></div></div></div>
                 <div class="grid grid-cols-2 gap-2 mb-3">
-                    <input type="number" id="ttestMean" placeholder="Rata-rata Sampel (x̄)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="number" id="ttestPop" placeholder="Rata-rata Populasi (μ₀)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="number" id="ttestStd" placeholder="Std Deviasi (s)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="number" id="ttestN" placeholder="Jumlah Data (n)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="ttestMean" data-i18n-placeholder="ttest_mean" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="ttestPop" data-i18n-placeholder="ttest_pop" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="ttestStd" data-i18n-placeholder="ttest_std" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="ttestN" data-i18n-placeholder="ttest_n" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcTTest()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_ttest_btn">Hitung T-Value</button>
-                <div id="ttestResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 flex flex-col justify-center gap-2 border border-outline/10"><div class="flex justify-between items-center"><span class="opacity-70 text-sm font-bold">T-Value</span><span class="font-mono font-black text-2xl text-primary" id="ttestResult">-</span></div><button onclick="askDynamicAI('ttest')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button><div id="aiBox_ttest" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_ttest" class="text-xs font-medium opacity-90"></p></div></div></div></div>
+                <div id="ttestResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 flex flex-col justify-center gap-2 border border-outline/10"><div class="flex justify-between items-center"><span class="opacity-70 text-sm font-bold">T-Value</span><span class="font-mono font-black text-2xl text-primary" id="ttestResult">-</span></div><button onclick="askDynamicAI('ttest')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform"><span data-i18n="ai_insight">AI Insight</span></button><div id="aiBox_ttest" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_ttest" class="text-xs font-medium opacity-90"></p></div></div></div></div>
             </div>
 
-            <!-- Regresi Linear -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_reg">Regresi Linear (y = ax + b)</span></h3>
@@ -238,8 +234,8 @@
                 </div>
                 <div id="info_stats_reg" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_reg_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_reg_ex"></p></div></div></div>
                 <div class="grid grid-cols-1 gap-2 mb-3">
-                    <input type="text" id="regX" placeholder="Dataset X (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="text" id="regY" placeholder="Dataset Y (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="text" id="regX" data-i18n-placeholder="reg_x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="text" id="regY" data-i18n-placeholder="reg_y" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcRegression()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_reg_btn">Hitung Model</button>
                 <div id="regResWrapper" class="morph-container">
@@ -247,17 +243,16 @@
                         <div class="p-4 bg-surface rounded-xl mt-2 flex flex-col gap-2">
                             <div class="text-center font-mono font-black text-xl text-primary" id="regEquation">-</div>
                             <div class="flex gap-2 mt-2">
-                                <input type="number" id="regPredictX" placeholder="Uji nilai X" class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm" oninput="predictY()">
+                                <input type="number" id="regPredictX" data-i18n-placeholder="reg_predict" class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm" oninput="predictY()">
                                 <div class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm flex items-center justify-center"><span class="opacity-50 mr-2">y=</span><span id="regPredictY">-</span></div>
                             </div>
-                            <button onclick="askDynamicAI('reg')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button>
+                            <button onclick="askDynamicAI('reg')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform"><span data-i18n="ai_insight">AI Insight</span></button>
                             <div id="aiBox_reg" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_reg" class="text-xs font-medium opacity-90"></p></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Korelasi Spearman -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="git-compare" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_spear">Korelasi Spearman (ρ)</span></h3>
@@ -265,14 +260,13 @@
                 </div>
                 <div id="info_stats_spear" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_spear_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_spear_ex"></p></div></div></div>
                 <div class="grid grid-cols-1 gap-2 mb-3">
-                    <input type="text" id="spearX" placeholder="Dataset Variabel X (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="text" id="spearY" placeholder="Dataset Variabel Y (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="text" id="spearX" data-i18n-placeholder="spear_x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="text" id="spearY" data-i18n-placeholder="spear_y" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcSpearman()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_spear_btn">Hitung Koefisien</button>
                 <div id="spearResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="spearResult">-</div></div></div>
             </div>
             
-            <!-- Kombinatorika & Binomial -->
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="bg-surfaceVariant rounded-[2rem] p-4 card-morph flex flex-col justify-between">
                     <div class="flex justify-between items-center mb-2">
@@ -281,8 +275,8 @@
                     </div>
                     <div id="info_stats_comb" class="morph-container info-accordion mb-2"><div class="morph-inner"><div class="p-2 bg-primary/10 rounded-xl text-[10px]"><p data-i18n="info_stats_comb_desc"></p></div></div></div>
                     <div class="grid grid-cols-2 gap-1 mb-2">
-                        <input type="number" id="combN" placeholder="n" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                        <input type="number" id="combR" placeholder="r" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
+                        <input type="number" id="combN" data-i18n-placeholder="stat_n_ph" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
+                        <input type="number" id="combR" data-i18n-placeholder="stat_r_ph" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
                     </div>
                     <div class="grid grid-cols-2 gap-1">
                         <button onclick="calcComb('P')" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph">nPr</button>
@@ -298,16 +292,15 @@
                     </div>
                     <div id="info_stats_binom" class="morph-container info-accordion mb-2"><div class="morph-inner"><div class="p-2 bg-primary/10 rounded-xl text-[10px]"><p data-i18n="info_stats_binom_desc"></p></div></div></div>
                     <div class="grid grid-cols-2 gap-1 mb-2">
-                        <input type="number" id="binN" placeholder="n" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                        <input type="number" id="binK" placeholder="k" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
+                        <input type="number" id="binN" data-i18n-placeholder="stat_n_ph" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
+                        <input type="number" id="binK" data-i18n-placeholder="stat_k_ph" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
                     </div>
-                    <input type="number" id="binP" placeholder="Prob(p)" step="0.1" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs mb-2">
-                    <button onclick="calcBinomial()" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph">P(X=k)</button>
+                    <input type="number" id="binP" data-i18n-placeholder="stat_p_ph" step="0.1" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs mb-2">
+                    <button onclick="calcBinomial()" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph" data-i18n="stat_binom_btn">P(X=k)</button>
                     <div id="binomResWrapper" class="morph-container"><div class="morph-inner"><div class="text-center font-mono font-black text-lg text-primary mt-2" id="binomResult">-</div></div></div>
                 </div>
             </div>
 
-            <!-- Distribusi Poisson -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_poisson">Distribusi Poisson</span></h3>
@@ -315,23 +308,21 @@
                 </div>
                 <div id="info_stats_poisson" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_poisson_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_poisson_ex"></p></div></div></div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
-                    <input type="number" id="poisLam" placeholder="Rata-rata (λ)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
-                    <input type="number" id="poisK" placeholder="Kejadian (k)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                    <input type="number" id="poisLam" data-i18n-placeholder="pois_lam" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                    <input type="number" id="poisK" data-i18n-placeholder="pois_k" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
                 </div>
-                <button onclick="calcPoisson()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung P(X=k)</button>
+                <button onclick="calcPoisson()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_pois_btn">Hitung P(X=k)</button>
                 <div id="poissonResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="poissonResult">-</div></div></div>
             </div>
 
         </section>
 
-        <!-- ==================== TAB 2: MATEMATIKA ==================== -->
         <section id="tab-math" class="tab-section animate-fade-in px-4 pt-4 hidden">
             <div class="mb-6">
                 <h2 class="text-4xl font-black mb-1 tracking-tight" data-i18n="math_title">Matematika</h2>
                 <p class="text-sm text-onSurfaceVariant font-medium" data-i18n="math_desc">Aljabar, Kalkulus Numerik, & Barisan.</p>
             </div>
 
-            <!-- Plotter Grafik 2D (BARU) -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="line-chart" class="w-5 h-5 text-primary"></i> <span data-i18n="math_plot">Plot Grafik 2D</span></h3>
@@ -341,9 +332,9 @@
 
                 <div class="flex gap-2 mb-3">
                     <div class="bg-surface rounded-xl p-3 font-mono font-bold flex items-center justify-center text-onSurfaceVariant">f(x)=</div>
-                    <input type="text" id="plotFunc" placeholder="Math.sin(x) * x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="text" id="plotFunc" data-i18n-placeholder="math_plot_func" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
-                <button onclick="drawPlot2D()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl mb-3">Gambar Grafik</button>
+                <button onclick="drawPlot2D()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl mb-3" data-i18n="math_plot_btn">Gambar Grafik</button>
                 
                 <div id="plotResWrapper" class="morph-container"><div class="morph-inner">
                     <div class="w-full aspect-square bg-surface rounded-2xl relative overflow-hidden border border-outline/10">
@@ -352,13 +343,12 @@
                 </div></div>
             </div>
 
-            <!-- Modals Math Triggers -->
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <button onclick="openModal('spldvModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
                     <i data-lucide="square-equal" class="text-primary w-8 h-8"></i> <span data-i18n="math_spldv_btn">SPLDV Linear</span>
                 </button>
                 <button onclick="openModal('spltvModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
-                    <i data-lucide="box-select" class="text-primary w-8 h-8"></i> <span>SPLTV (3x3)</span>
+                    <i data-lucide="box-select" class="text-primary w-8 h-8"></i> <span data-i18n="math_spltv">SPLTV (3x3)</span>
                 </button>
                 <button onclick="openModal('quadModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
                     <i data-lucide="function-square" class="text-primary w-8 h-8"></i> <span data-i18n="math_quad_btn">Pers. Kuadrat</span>
@@ -368,7 +358,6 @@
                 </button>
             </div>
 
-            <!-- Kalkulator Turunan Numerik -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i> <span data-i18n="math_deriv">Turunan Numerik f'(x)</span></h3>
@@ -376,13 +365,12 @@
                 </div>
                 <div id="info_math_deriv" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_deriv_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_deriv_ex"></p></div></div></div>
 
-                <input type="text" id="derivFunc" placeholder="Fungsi f(x), misal: x**2 + 2*x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
-                <input type="number" id="derivX" placeholder="Pada nilai x =" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3 text-sm text-center">
-                <button onclick="calcDerivative()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung Gradien f'(x)</button>
+                <input type="text" id="derivFunc" data-i18n-placeholder="math_deriv_func" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
+                <input type="number" id="derivX" data-i18n-placeholder="math_deriv_x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3 text-sm text-center">
+                <button onclick="calcDerivative()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="math_deriv_btn">Hitung Gradien f'(x)</button>
                 <div id="derivResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-2xl text-primary mt-2" id="derivResult">-</div></div></div>
             </div>
 
-            <!-- Kalkulator Integral Numerik -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="area-chart" class="w-5 h-5 text-primary"></i> <span data-i18n="math_integral">Integral Tentu (Simpson)</span></h3>
@@ -390,24 +378,23 @@
                 </div>
                 <div id="info_math_int" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_int_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_int_ex"></p></div></div></div>
 
-                <input type="text" id="intFunc" placeholder="Fungsi f(x), misal: x**2 + 2*x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
+                <input type="text" id="intFunc" data-i18n-placeholder="math_int_func" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
                 <div class="grid grid-cols-2 gap-2 mb-3">
-                    <input type="number" id="intA" placeholder="Batas Bawah (a)" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm">
-                    <input type="number" id="intB" placeholder="Batas Atas (b)" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="intA" data-i18n-placeholder="math_int_a" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm">
+                    <input type="number" id="intB" data-i18n-placeholder="math_int_b" class="bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcIntegral()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="math_int_btn">Hitung Luas Area</button>
                 <div id="intResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-2xl text-primary mt-2" id="intResult">-</div></div></div>
             </div>
 
-            <!-- FPB & KPK -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="layers" class="w-5 h-5 text-primary"></i> <span data-i18n="math_lcm">FPB & KPK</span></h3>
                     <button onclick="toggleCardInfo('math_lcm')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
                 <div id="info_math_lcm" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_lcm_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_lcm_ex"></p></div></div></div>
-                <input type="text" id="lcmInput" placeholder="Angka dipisah koma (Misal: 12, 18, 24)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm mb-3">
-                <button onclick="calcFPBKPK()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl text-sm">Hitung FPB & KPK</button>
+                <input type="text" id="lcmInput" data-i18n-placeholder="math_lcm_input" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm mb-3">
+                <button onclick="calcFPBKPK()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl text-sm" data-i18n="math_lcm_btn">Hitung FPB & KPK</button>
                 <div id="lcmResWrapper" class="morph-container"><div class="morph-inner">
                     <div class="grid grid-cols-2 gap-2 mt-4">
                         <div class="bg-surface p-3 rounded-xl text-center"><p class="text-xs font-bold opacity-70">FPB (GCD)</p><p class="text-xl font-black text-primary" id="resFPB">-</p></div>
@@ -416,7 +403,6 @@
                 </div></div>
             </div>
 
-            <!-- Barisan & Deret -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="bar-chart-horizontal" class="w-5 h-5 text-primary"></i> <span data-i18n="math_seq">Barisan & Deret</span></h3>
@@ -425,9 +411,9 @@
                 <div id="info_math_seq" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_seq_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_seq_ex"></p></div></div></div>
 
                 <div class="grid grid-cols-3 gap-2 mb-3">
-                    <input type="number" id="seqA" placeholder="Awal (a)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
-                    <input type="number" id="seqR" placeholder="Beda/Rasio" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
-                    <input type="number" id="seqN" placeholder="Suku ke (n)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="seqA" data-i18n-placeholder="seq_a" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="seqR" data-i18n-placeholder="seq_r" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="seqN" data-i18n-placeholder="seq_n" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="calcSequence('A')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl text-sm" data-i18n="math_seq_arith">Aritmetika</button>
@@ -441,7 +427,6 @@
                 </div></div>
             </div>
 
-            <!-- Vektor 3D -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="box" class="w-5 h-5 text-primary"></i> <span data-i18n="math_vec3d">Operasi Vektor 3D</span></h3>
@@ -462,13 +447,12 @@
                     <input type="number" id="v3bz" placeholder="k" class="w-1/3 bg-surface rounded-xl p-2 text-center font-mono font-bold">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="calcVec3D('dot')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Dot (A·B)</button>
-                    <button onclick="calcVec3D('cross')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Cross (A×B)</button>
+                    <button onclick="calcVec3D('dot')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="math_vec3d_dot">Dot (A·B)</button>
+                    <button onclick="calcVec3D('cross')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="math_vec3d_cross">Cross (A×B)</button>
                 </div>
                 <div id="vec3ResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-lg text-primary mt-2" id="vec3Result">-</div></div></div>
             </div>
 
-            <!-- Konverter Prefix SI (BARU) -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="arrow-left-right" class="w-5 h-5 text-primary"></i> <span data-i18n="math_prefix">Konverter Prefix SI</span></h3>
@@ -484,11 +468,10 @@
                         <option value="1">Base (1)</option><option value="1e-12">Piko (p)</option><option value="1e-9">Nano (n)</option><option value="1e-6">Mikro (µ)</option><option value="1e-3">Mili (m)</option><option value="1e3" selected>Kilo (k)</option><option value="1e6">Mega (M)</option><option value="1e9">Giga (G)</option><option value="1e12">Tera (T)</option>
                     </select>
                 </div>
-                <input type="number" id="prefInput" placeholder="Masukkan nilai" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3" oninput="convertPrefix()">
+                <input type="number" id="prefInput" data-i18n-placeholder="base_input" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3" oninput="convertPrefix()">
                 <div class="p-3 bg-primaryContainer text-onPrimaryContainer rounded-xl font-mono font-black text-lg text-center" id="prefOutput">-</div>
             </div>
 
-            <!-- Konverter Basis -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="hash" class="w-5 h-5 text-primary"></i> <span data-i18n="math_base">Konverter Basis (IT)</span></h3>
@@ -504,7 +487,6 @@
                 <div class="p-3 bg-primaryContainer text-onPrimaryContainer rounded-xl font-mono font-black text-lg break-all text-center" id="baseOutput">-</div>
             </div>
 
-            <!-- Kalkulator Dasar -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4">
                 <h3 class="font-bold text-lg mb-3 flex items-center gap-2"><i data-lucide="calculator" class="w-5 h-5 text-primary"></i> <span data-i18n="math_calc">Kalkulator Dasar</span></h3>
                 <div class="bg-surface p-4 rounded-[1.5rem]">
@@ -534,47 +516,54 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 3: FISIKA ==================== -->
         <section id="tab-physics" class="tab-section animate-fade-in px-4 pt-4 hidden">
             <div class="mb-6">
                 <h2 class="text-4xl font-black mb-1 tracking-tight" data-i18n="phys_title">Fisika</h2>
                 <p class="text-sm text-onSurfaceVariant font-medium" data-i18n="phys_desc">Visualisasi & Simulator Raksasa.</p>
             </div>
 
-            <!-- Simulasi Gelombang (BARU) -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-6 card-morph">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="waves" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_wave">Simulasi Gelombang</span></h3>
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="waves" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_wave">Simulasi Gelombang Harmonik</span></h3>
                     <button onclick="toggleCardInfo('phys_wave')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
                 <div id="info_phys_wave" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_phys_wave_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_phys_wave_ex"></p></div></div></div>
 
                 <div class="w-full aspect-[2/1] bg-surface rounded-2xl relative overflow-hidden mb-3 border border-outline/10">
                     <canvas id="waveCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                    <div class="absolute bottom-2 left-2 right-2 flex justify-between items-end pointer-events-none">
+                        <div class="bg-surface/80 backdrop-blur text-[10px] font-mono font-bold px-2 py-1 rounded-lg" id="waveEq">y = A sin(kx - ωt)</div>
+                        <div class="bg-surface/80 backdrop-blur text-[10px] font-mono font-bold px-2 py-1 rounded-lg" id="waveInfoVal">v = 0 | T = 0</div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-2 text-sm font-bold">
-                    <div><label class="opacity-70 text-xs">Amplitudo (A)</label><input type="range" id="waveA" min="10" max="100" value="50" class="w-full accent-primary"></div>
-                    <div><label class="opacity-70 text-xs">Frekuensi (ω)</label><input type="range" id="waveW" min="1" max="10" value="5" class="w-full accent-primary"></div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-3 text-sm font-bold">
+                    <div class="bg-surface p-2 rounded-xl border border-outline/10">
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>Amplitudo (A)</span><span id="lblWaveA">50</span></div>
+                        <input type="range" id="waveA" min="10" max="100" value="50" class="w-full accent-primary" oninput="document.getElementById('lblWaveA').innerText=this.value">
+                    </div>
+                    <div class="bg-surface p-2 rounded-xl border border-outline/10">
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>Frekuensi (f)</span><span id="lblWaveF">1.0</span></div>
+                        <input type="range" id="waveF" min="0.1" max="5.0" step="0.1" value="1.0" class="w-full accent-primary" oninput="document.getElementById('lblWaveF').innerText=this.value">
+                    </div>
+                    <div class="bg-surface p-2 rounded-xl border border-outline/10 col-span-2">
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>Panjang Gelombang (λ)</span><span id="lblWaveL">100</span></div>
+                        <input type="range" id="waveL" min="20" max="200" value="100" class="w-full accent-primary" oninput="document.getElementById('lblWaveL').innerText=this.value">
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <select id="waveMode" class="flex-1 bg-surface rounded-xl p-3 font-bold text-sm outline-none border-none">
+                        <option value="single" data-i18n="wave_opt_single">1 Gelombang Berjalan</option>
+                        <option value="standing" data-i18n="wave_opt_standing">Gelombang Berdiri (Stasioner)</option>
+                        <option value="interference" data-i18n="wave_opt_beat">Pelayangan (Interferensi Beat)</option>
+                    </select>
+                    <button onclick="toggleWavePlay()" id="wavePlayBtn" class="bg-primary text-onPrimary p-3 rounded-xl btn-morph flex items-center justify-center aspect-square shadow-sm">
+                        <i data-lucide="pause"></i>
+                    </button>
                 </div>
             </div>
 
-            <!-- Simulasi Orbit (BARU) -->
-            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-6 card-morph">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="orbit" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_orbit">Simulasi Orbit</span></h3>
-                    <button onclick="toggleCardInfo('phys_orbit')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
-                </div>
-                <div id="info_phys_orbit" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_phys_orbit_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_phys_orbit_ex"></p></div></div></div>
-
-                <div class="w-full aspect-square bg-surface rounded-2xl relative overflow-hidden mb-3 border border-outline/10">
-                    <canvas id="orbitCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
-                </div>
-                <div class="text-sm font-bold">
-                    <label class="opacity-70 text-xs">Kecepatan Orbit</label><input type="range" id="orbitV" min="1" max="10" value="3" class="w-full accent-primary">
-                </div>
-            </div>
-
-            <!-- Vektor -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-6 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="move-up-right" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_vec">Resultan Vektor 2D</span></h3>
@@ -593,8 +582,8 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 mb-3">
-                    <input type="number" id="vecMag" class="w-full bg-surface rounded-xl p-3 font-bold" placeholder="Gaya (N)">
-                    <input type="number" id="vecAng" class="w-full bg-surface rounded-xl p-3 font-bold" placeholder="Sudut (°)">
+                    <input type="number" id="vecMag" class="w-full bg-surface rounded-xl p-3 font-bold" data-i18n-placeholder="vec_mag_ph">
+                    <input type="number" id="vecAng" class="w-full bg-surface rounded-xl p-3 font-bold" data-i18n-placeholder="vec_ang_ph">
                 </div>
                 <button onclick="addVector()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl flex items-center justify-center gap-2 mb-3">
                     <i data-lucide="plus" class="w-5 h-5"></i> <span data-i18n="vec_add">Tambah Vektor</span>
@@ -605,24 +594,23 @@
                     <button onclick="initiateVectorCalc()" class="btn-morph w-full bg-primary text-onPrimary font-bold py-3 rounded-xl flex items-center justify-center gap-2" data-i18n="vec_calc">Kalkulasi</button>
                 </div></div>
 
-                <div id="vectorLoader" class="morph-container mt-4"><div class="morph-inner"><div class="flex flex-col items-center justify-center p-6 bg-surface rounded-2xl text-primary"><i data-lucide="loader-2" class="w-8 h-8 spinner mb-2"></i><p class="text-sm font-bold animate-pulse" id="txt_load">Memproses...</p></div></div></div>
+                <div id="vectorLoader" class="morph-container mt-4"><div class="morph-inner"><div class="flex flex-col items-center justify-center p-6 bg-surface rounded-2xl text-primary"><i data-lucide="loader-2" class="w-8 h-8 spinner mb-2"></i><p class="text-sm font-bold animate-pulse" id="txt_load_vec">Memproses...</p></div></div></div>
 
                 <div id="vectorResultContainer" class="morph-container mt-4"><div class="morph-inner space-y-3">
                     <div class="grid grid-cols-2 gap-2 mt-2">
                         <div class="bg-surface p-3 rounded-xl"><p class="text-xs font-bold opacity-70">Resultan (R)</p><p class="text-xl font-black"><span id="resR">0</span> N</p></div>
                         <div class="bg-surface p-3 rounded-xl"><p class="text-xs font-bold opacity-70">Arah (θ)</p><p class="text-xl font-black"><span id="resTheta">0</span>°</p></div>
                     </div>
-                    <button onclick="askDynamicAI('vec')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform shadow-sm">AI Insight ✨</button>
+                    <button onclick="askDynamicAI('vec')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform shadow-sm"><span data-i18n="ai_insight">AI Insight</span></button>
                     <div id="aiBox_vec" class="hidden mt-2 p-3 bg-surface border border-outline/10 rounded-xl"><p id="aiOut_vec" class="text-xs font-medium opacity-90"></p></div>
 
                     <div class="w-full aspect-square bg-surface rounded-2xl relative overflow-hidden border border-outline/10"><canvas id="vectorCanvas" class="absolute top-0 left-0 w-full h-full"></canvas></div>
                 </div></div>
             </div>
 
-            <!-- Rangkaian RLC AC -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_rlc">Rangkaian RLC (Arus AC)</span></h3>
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-primary"></i> <span data-i18n="phys_rlc">Rangkaian RLC (AC & DC)</span></h3>
                     <button onclick="toggleCardInfo('phys_rlc')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
                 
@@ -637,32 +625,34 @@
                     </div>
                 </div>
 
+                <select id="rlcMode" class="w-full bg-surface rounded-xl p-3 font-bold mb-3 outline-none border-none">
+                    <option value="ac" data-i18n="rlc_ac_opt">Analisis Impedansi (Arus AC)</option>
+                    <option value="dc" data-i18n="rlc_dc_opt">Analisis Transien Redaman (Arus DC)</option>
+                </select>
+
                 <div class="grid grid-cols-3 gap-2 mb-3">
-                    <input type="number" id="rlcR" placeholder="R (Ω)" class="bg-surface rounded-xl p-3 text-center font-mono font-bold">
-                    <input type="number" id="rlcL" placeholder="L (H)" class="bg-surface rounded-xl p-3 text-center font-mono font-bold">
-                    <input type="number" id="rlcC" placeholder="C (μF)" class="bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                    <input type="number" id="rlcR" data-i18n-placeholder="rlc_r" class="bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="rlcL" data-i18n-placeholder="rlc_l" class="bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="rlcC" data-i18n-placeholder="rlc_c" class="bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
                 </div>
-                <input type="number" id="rlcFreq" placeholder="Frekuensi Sudut (ω) rad/s" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3">
-                <button onclick="calcRLC()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="phys_rlc_btn">Hitung Impedansi (Z)</button>
+                <input type="number" id="rlcFreq" data-i18n-placeholder="rlc_w" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-3">
+                <button onclick="calcRLC()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="phys_rlc_btn">Hitung Analisis RLC</button>
+                
                 <div id="rlcResWrapper" class="morph-container"><div class="morph-inner">
-                    <div class="grid grid-cols-2 gap-2 mt-4">
-                        <div class="bg-surface p-3 rounded-xl text-center"><p class="text-xs font-bold opacity-70" data-i18n="phys_imp">Impedansi (Z)</p><p class="text-lg font-black text-primary"><span id="rlcZ">0</span> Ω</p></div>
-                        <div class="bg-surface p-3 rounded-xl text-center"><p class="text-xs font-bold opacity-70" data-i18n="phys_fres">Freq Resonansi (f)</p><p class="text-lg font-black text-primary"><span id="rlcFres">0</span> Hz</p></div>
+                    <div class="mt-4 p-4 bg-surface rounded-xl flex flex-col gap-2 font-mono text-sm border border-outline/10" id="rlcOutData">
                     </div>
                 </div></div>
             </div>
 
-            <!-- Rumus Dinamis Interaktif -->
             <div class="mb-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xl" data-i18n="phys_form">Kalkulator Rumus (Pilih Satuan)</h3>
+                    <h3 class="font-bold text-xl" data-i18n="phys_form">Kalkulator Rumus Fisika</h3>
                 </div>
                 <div id="formulaList" class="space-y-4"></div>
             </div>
         </section>
     </main>
 
-    <!-- Bottom Navigation -->
     <nav class="fixed bottom-4 left-4 right-4 bg-surfaceVariant rounded-full flex justify-between p-2 shadow-2xl z-40 border border-outline/10">
         <button onclick="switchTab('stats')" id="nav-stats" class="capsule-btn flex items-center justify-center gap-2 rounded-full px-4 py-3 flex-grow bg-primary text-onPrimary">
             <i data-lucide="bar-chart" class="w-5 h-5 shrink-0"></i>
@@ -681,14 +671,12 @@
         </button>
     </nav>
 
-    <!-- ================= MODALS (WITH STACK LOGIC) ================= -->
-    
-    <!-- Settings Modal (Bottom Sheet style) -->
     <div id="settingsModal" class="modal-overlay modal-bottom fixed inset-0 bg-black/80 flex items-end">
-        <div class="modal-content w-full bg-surface rounded-t-[2rem] p-6 pb-12 shadow-2xl">
+        <div class="modal-content w-full bg-surface rounded-t-[2rem] p-6 pb-12 shadow-2xl relative">
             <div class="modal-grabber"></div>
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-black flex items-center gap-2 text-primary">Ralat</h2>
+                <button onclick="closeModal('settingsModal')" class="p-2 bg-surfaceVariant rounded-full btn-morph text-onSurfaceVariant"><i data-lucide="x"></i></button>
             </div>
 
             <div class="mb-4">
@@ -718,22 +706,28 @@
             </div>
 
             <div class="mb-6">
-                <label class="block text-sm font-bold mb-2 opacity-70">Gemini API Key (AI Insight)</label>
+                <label class="block text-sm font-bold mb-2 opacity-70" data-i18n="gemini_title">Gemini API Key (AI Insight)</label>
                 <input type="password" id="geminiApiKey" placeholder="AIzaSy..." class="w-full bg-surfaceVariant rounded-xl p-3 font-mono text-sm mb-2" onchange="saveApiKey()">
                 <p class="text-[10px] opacity-60" data-i18n="set_key_info">*Kunci disimpan lokal di browser (localStorage).</p>
+            </div>
+            
+            <div class="mb-6">
+                <a href="https://saweria.co/Densl" target="_blank" rel="noopener noreferrer" class="btn-morph w-full bg-[#E4A951] text-black font-bold py-3 rounded-xl flex items-center justify-center gap-2">
+                    <i data-lucide="coffee" class="w-5 h-5"></i> <span data-i18n="buy_coffee">Dukung Developer (Saweria)</span>
+                </a>
             </div>
             
             <p class="text-xs text-center font-mono opacity-50 mt-6">Versi 1.0.0</p>
         </div>
     </div>
 
-    <!-- Modals Math (Pop-Up Tengah) -->
     <div id="spldvModal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
-        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
+        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl relative">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-black text-xl" data-i18n="math_spldv">SPLDV Cramer</h3>
                 <div class="flex gap-2">
                     <button onclick="toggleCardInfo('modal_spldv')" class="p-2 text-primary opacity-60 hover:opacity-100 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                    <button onclick="closeModal('spldvModal')" class="p-2 bg-surfaceVariant rounded-full btn-morph"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
             </div>
             
@@ -757,13 +751,13 @@
         </div>
     </div>
 
-    <!-- Modal SPLTV -->
     <div id="spltvModal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
-        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
+        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl relative">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-black text-xl" data-i18n="math_spltv">SPLTV 3x3</h3>
                 <div class="flex gap-2">
                     <button onclick="toggleCardInfo('modal_spltv')" class="p-2 text-primary opacity-60 hover:opacity-100 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                    <button onclick="closeModal('spltvModal')" class="p-2 bg-surfaceVariant rounded-full btn-morph"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
             </div>
             
@@ -791,11 +785,12 @@
     </div>
 
     <div id="quadModal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
-        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
+        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl relative">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-black text-xl" data-i18n="math_quad">Persamaan Kuadrat</h3>
                 <div class="flex gap-2">
                     <button onclick="toggleCardInfo('modal_quad')" class="p-2 text-primary opacity-60 hover:opacity-100 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                    <button onclick="closeModal('quadModal')" class="p-2 bg-surfaceVariant rounded-full btn-morph"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
             </div>
             
@@ -817,11 +812,12 @@
     </div>
 
     <div id="mat3Modal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
-        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
+        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl relative">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-black text-xl" data-i18n="math_mat3">Det Matriks 3x3</h3>
                 <div class="flex gap-2">
                     <button onclick="toggleCardInfo('modal_mat3')" class="p-2 text-primary opacity-60 hover:opacity-100 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                    <button onclick="closeModal('mat3Modal')" class="p-2 bg-surfaceVariant rounded-full btn-morph"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
             </div>
             
@@ -852,7 +848,6 @@
         function openMorph(id) { document.getElementById(id).classList.add('open'); }
         function closeMorph(id) { document.getElementById(id).classList.remove('open'); }
 
-        // Accordion Mutex Logic (Hanya 1 info terbuka pada satu waktu)
         function toggleCardInfo(id) {
             const el = document.getElementById(`info_${id}`);
             const wasOpen = el.classList.contains('open');
@@ -860,15 +855,16 @@
             if (!wasOpen) el.classList.add('open');
         }
 
-        // Click Outside to Close Modals & Accordions
+        // Click Outside to Close
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) closeModal(e.target.id);
+            if (e.target.classList.contains('modal-overlay')) {
+                window.history.back(); // Trigger popstate
+            }
             if (!e.target.closest('.card-morph') && !e.target.closest('.info-accordion') && !e.target.closest('.btn-morph') && !e.target.closest('.modal-content')) {
                 document.querySelectorAll('.info-accordion.open').forEach(acc => acc.classList.remove('open'));
             }
         });
 
-        // Markdown Simple Parser
         function parseAIMarkdown(text) {
             return text.replace(/\*\*(.*?)\*\*/g, '<b class="text-primary">$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>').replace(/\n/g, '<br>');
         }
@@ -883,18 +879,20 @@
                 st_err: "Ralat Mutlak (Δx)", st_rel: "Ralat Nisbi", st_curve: "Kurva Distribusi Normal", stat_reg: "Regresi Linear (y = ax + b)", stat_reg_btn: "Hitung Model",
                 stat_spear: "Korelasi Spearman (ρ)", stat_spear_btn: "Hitung Koefisien", stat_ttest: "Uji T-Test (1 Sampel)", stat_ttest_btn: "Hitung T-Value", stat_comb: "Kombinatorika",
                 stat_binom: "Probabilitas Binomial", stat_binom_btn: "Hitung Probabilitas P(X=k)", stat_poisson: "Distribusi Poisson", stat_perc: "Kuartil & Persentil", stat_prop: "Propagasi Ralat",
-                math_title: "Matematika", math_desc: "Aljabar, Kalkulus Numerik, & Barisan.", math_plot: "Plot Grafik 2D",
+                math_title: "Matematika", math_desc: "Aljabar, Kalkulus Numerik, & Barisan.", math_plot: "Plot Grafik 2D", math_plot_btn: "Gambar Grafik",
                 math_integral: "Integral Tentu (Simpson)", math_int_btn: "Hitung Luas Area", math_seq: "Barisan & Deret", math_seq_arith: "Aritmetika", math_seq_geo: "Geometri",
                 math_vec3d: "Operasi Vektor 3D", math_calc: "Kalkulator Dasar", math_base: "Konverter Basis (IT)", math_spldv: "SPLDV Cramer", math_spldv_btn: "SPLDV Linear",
                 math_spltv: "SPLTV (3x3)", math_quad: "Persamaan Kuadrat", math_quad_btn: "Pers. Kuadrat", math_mat3: "Det Matriks 3x3", math_mat3_btn: "Det. Matriks 3x3", btn_solve: "Selesaikan",
-                math_deriv: "Turunan Numerik f'(x)", math_lcm: "FPB & KPK",
+                math_deriv: "Turunan Numerik f'(x)", math_lcm: "FPB & KPK", math_lcm_btn: "Hitung FPB & KPK", math_prefix: "Konverter Prefix SI",
                 phys_title: "Fisika", phys_desc: "Visualisasi & Simulator Raksasa.", phys_vec: "Resultan Vektor 2D", vec_add: "Tambah Vektor", vec_calc: "Kalkulasi", phys_wave: "Simulasi Gelombang Harmonik", phys_orbit: "Simulasi Orbit Sentral",
-                phys_rlc: "Rangkaian RLC (Arus AC)", phys_rlc_btn: "Hitung Impedansi (Z)", phys_imp: "Impedansi (Z)", phys_fres: "Freq Resonansi (f)", phys_form: "Kalkulator Rumus Raksasa",
+                phys_rlc: "Rangkaian RLC (AC & DC)", phys_rlc_btn: "Hitung Analisis RLC", phys_imp: "Impedansi (Z)", phys_fres: "Freq Resonansi (f)", phys_form: "Kalkulator Rumus Raksasa",
                 tab_stats: "Stats", tab_math: "Math", tab_phys: "Fisika", set_theme: "Tampilan & Mode", set_light: "Terang", set_dark: "Gelap", set_color: "Warna Material You", set_lang: "Bahasa / Language",
+                gemini_title: "Gemini API Key (AI Insight)", buy_coffee: "Dukung Developer (Saweria)", ai_insight: "AI Insight",
                 set_key_info: "*Kunci disimpan lokal di browser (localStorage).", alert_api: "Masukkan API Key Gemini di menu Pengaturan.", alert_min2: "Masukkan minimal 2 angka valid!",
                 alert_binom: "Input tidak valid untuk Binomial!", alert_ttest: "Input tidak valid untuk T-Test!", alert_reg: "Dataset X dan Y harus sama jumlahnya (min 2)!",
-                alert_spear: "Butuh min. 3 pasang data, jumlah X dan Y harus sama!", alert_comb: "Nilai tidak valid! (n ≥ r ≥ 0)", alert_int: "Input tidak valid. Pastikan a < b.", alert_int_func: "Fungsi tidak valid. Gunakan format misal: x**2 + 2*x",
-                txt_load: "Memproses...",
+                alert_spear: "Butuh min. 3 pasang data, jumlah X dan Y harus sama!", alert_comb: "Nilai tidak valid! (n ≥ r ≥ 0)", alert_int: "Input tidak valid. Pastikan a < b.", alert_int_func: "Fungsi tidak valid. Gunakan format misal: x^2 + 2*x",
+                alert_poisson: "Input Poisson tidak valid!", alert_perc: "Dataset minimal 2 angka, Persentil 1-99!", alert_prop: "Input Propagasi tidak valid!", alert_deriv: "Input tidak valid!", alert_lcm: "Masukkan minimal 2 angka bulat positif!", alert_rlc: "Input RLC tidak valid!",
+                txt_load: "Memproses...", txt_analyzing: "Menganalisis...",
                 // Tooltips ID
                 info_stats_basic_desc: "Alat untuk menghitung rata-rata, variansi, standar deviasi, ralat, dan melihat kurva distribusi normal.", info_stats_basic_ex: "Masukkan nilai: 80 85 90 75 80",
                 info_stats_binom_desc: "Menghitung peluang k sukses dari n percobaan, dengan peluang sukses p setiap percobaan.", info_stats_binom_ex: "Koin dilempar 10x (n=10), peluang gambar 0.5 (p=0.5), ingin tepat 3 gambar (k=3).",
@@ -905,13 +903,13 @@
                 info_stats_spear_desc: "Mengukur seberapa kuat dan searah hubungan peringkat antara dua dataset.", info_stats_spear_ex: "Korelasi nilai matematika (X) dengan fisika (Y).",
                 info_stats_comb_desc: "Menghitung Permutasi (urutan penting) dan Kombinasi (urutan tidak penting).", info_stats_comb_ex: "Memilih 3 pengurus dari 10 orang (n=10, r=3).",
                 info_stats_prop_desc: "Menghitung ketidakpastian (error) berantai dari hasil penjumlahan atau perkalian dua besaran fisika.", info_stats_prop_ex: "Sisi A = 10±0.1 dan Sisi B = 5±0.2. Luas (AxB) = ?",
-                info_math_deriv_desc: "Menghitung gradien/kemiringan dari fungsi f(x) pada titik x tertentu menggunakan pendekatan numerik beda pusat.", info_math_deriv_ex: "Cari f'(x) untuk fungsi x**2 pada nilai x = 5.",
+                info_math_deriv_desc: "Menghitung gradien/kemiringan dari fungsi f(x) pada titik x tertentu menggunakan pendekatan numerik beda pusat.", info_math_deriv_ex: "Cari f'(x) untuk fungsi x^2 pada nilai x = 5.",
                 info_math_lcm_desc: "Mencari Faktor Persekutuan Terbesar (GCD) dan Kelipatan Persekutuan Terkecil (LCM) dari deretan angka.", info_math_lcm_ex: "Angka: 12, 18, 24",
-                info_math_int_desc: "Menghitung luas di bawah kurva fungsi matematika menggunakan pendekatan numerik Simpson 1/3.", info_math_int_ex: "Luas kurva f(x) = x**2 dari x=0 sampai x=5.",
+                info_math_int_desc: "Menghitung luas di bawah kurva fungsi matematika menggunakan pendekatan numerik Simpson 1/3.", info_math_int_ex: "Luas kurva f(x) = x^2 dari x=0 sampai x=5.",
                 info_math_seq_desc: "Mencari suku ke-n (Un) dan jumlah n suku pertama (Sn) untuk deret Aritmetika/Geometri.", info_math_seq_ex: "Deret: 2, 4, 6... (Awal=2, Beda=2, Cari suku ke-10).",
                 info_math_vec3d_desc: "Menghitung perkalian titik (Dot/Skalar) dan perkalian silang (Cross/Vektor tegak lurus).", info_math_vec3d_ex: "A = 1i + 2j + 3k dan B = 4i + 5j + 6k.",
                 info_math_calc_desc: "Kalkulator dasar yang solid untuk perhitungan numerik instan.", info_math_calc_ex: "Hitung (5+3)*2",
-                info_math_plot_desc: "Visualisasi grafik 2D dari fungsi matematika f(x). Rentang sumbu X secara asali adalah -10 sampai 10.", info_math_plot_ex: "Math.sin(x), Math.cos(x), atau x**2",
+                info_math_plot_desc: "Visualisasi grafik 2D dari fungsi matematika f(x). Rentang sumbu X secara asali adalah -10 sampai 10.", info_math_plot_ex: "Math.sin(x), Math.cos(x), atau x^2",
                 info_math_spldv_desc: "Memecahkan dua persamaan linear dengan metode determinan matriks (Cramer).", info_math_spldv_ex: "2x + y = 5 dan 3x - y = 0",
                 info_math_spltv_desc: "Memecahkan tiga persamaan linear (x, y, z) dengan metode determinan (Cramer ordo 3x4).", info_math_spltv_ex: "x+y+z=6, 2x-y+z=3, dst.",
                 info_math_quad_desc: "Mencari akar-akar penyelesaian real atau imajiner dari persamaan kuadrat ax² + bx + c = 0.", info_math_quad_ex: "x² - 5x + 6 = 0 (a=1, b=-5, c=6)",
@@ -919,9 +917,16 @@
                 info_math_prefix_desc: "Alat konversi cepat untuk berbagai prefiks Satuan Internasional (Piko, Nano, Mikro, Kilo, Mega, Giga, Tera).", info_math_prefix_ex: "Ubah 5 Kilo (1e3) menjadi Mili (1e-3).",
                 info_math_base_desc: "Konversi nilai bilangan antar basis komputasi: Desimal, Biner, Oktal, Hexadesimal.", info_math_base_ex: "Ubah 255 (Desimal) ke Hexadesimal.",
                 info_phys_vec_desc: "Menghitung gaya total dari banyak vektor gaya dan memvisualisasikan arah resultannya.", info_phys_vec_ex: "Gaya tarik 10N sudut 0°, dan 5N sudut 90°.",
-                info_phys_rlc_desc: "Mencari impedansi (hambatan total) dan frekuensi resonansi pada rangkaian Resistor, Induktor, Kapasitor AC.", info_phys_rlc_ex: "R=10, L=0.5, C=100, ω=50.",
-                info_phys_wave_desc: "Simulasi animasi gelombang berjalan harmonik. Amplitudo mengontrol tinggi gelombang, Frekuensi (omega) mengontrol kecepatan.", info_phys_wave_ex: "Atur amplitudo tinggi dan frekuensi rendah.",
-                info_phys_orbit_desc: "Simulasi visual orbit sentral gaya gravitasi. Kecepatan mempengaruhi orbit objek satelit.", info_phys_orbit_ex: "Naikkan kecepatan untuk rotasi lebih cepat.",
+                info_phys_rlc_desc: "Hibrida RLC. Mencari impedansi di arus AC, atau mendiagnosis jenis redaman (Transient) di arus DC.", info_phys_rlc_ex: "R=10, L=0.5, C=100, ω/V=50.",
+                info_phys_wave_desc: "Simulasi animasi gelombang berjalan harmonik interaktif yang bisa diatur amplitudo, frekuensi, dan panjang gelombangnya.", info_phys_wave_ex: "Atur amplitudo tinggi dan frekuensi rendah, coba mode Interferensi.",
+                // Placeholders ID
+                prop_x: "Nilai X", prop_dx: "Ralat ΔX", prop_y: "Nilai Y", prop_dy: "Ralat ΔY", stat_perc_p: "Cari Persentil Ke- (1-99)",
+                ttest_mean: "Rata-rata Sampel (x̄)", ttest_pop: "Rata-rata Populasi (μ₀)", ttest_std: "Std Deviasi (s)", ttest_n: "Jumlah Data (n)",
+                reg_x: "Dataset X (Koma/Spasi)", reg_y: "Dataset Y (Koma/Spasi)", reg_predict: "Uji nilai X", spear_x: "Dataset Variabel X (Koma/Spasi)", spear_y: "Dataset Variabel Y (Koma/Spasi)",
+                stat_n_ph: "n", stat_r_ph: "r", stat_k_ph: "k", stat_p_ph: "Peluang (p)", pois_lam: "Rata-rata (λ)", pois_k: "Kejadian (k)",
+                math_plot_func: "Math.sin(x) * x", math_deriv_func: "Fungsi f(x), misal: x^2 + 2x", math_deriv_x: "Pada nilai x =", math_int_func: "Fungsi f(x), misal: x^2 + 2*x", math_int_a: "Batas Bawah (a)", math_int_b: "Batas Atas (b)",
+                math_lcm_input: "Angka dipisah koma (Misal: 12, 18, 24)", seq_a: "Awal (a)", seq_r: "Beda/Rasio", seq_n: "Suku ke (n)", base_input: "101010", vec_mag_ph: "Gaya (N)", vec_ang_ph: "Sudut (°)",
+                rlc_r: "R (Ω)", rlc_l: "L (H)", rlc_c: "C (μF)", rlc_w: "Frekuensi Sudut ω (AC) / Volts (DC)", wave_opt_single: "1 Gelombang Berjalan", wave_opt_standing: "Gelombang Berdiri (Stasioner)", wave_opt_beat: "Pelayangan (Interferensi Beat)"
             },
             en: {
                 info_purpose: "Purpose:", info_example: "Example:",
@@ -930,18 +935,20 @@
                 st_err: "Absolute Error (Δx)", st_rel: "Relative Error", st_curve: "Normal Distribution Curve", stat_reg: "Linear Regression (y = ax + b)", stat_reg_btn: "Calculate Model",
                 stat_spear: "Spearman Correlation (ρ)", stat_spear_btn: "Calculate Coefficient", stat_ttest: "T-Test (1 Sample)", stat_ttest_btn: "Calculate T-Value", stat_comb: "Combinatorics",
                 stat_binom: "Binomial Probability", stat_binom_btn: "Calculate Probability P(X=k)", stat_poisson: "Poisson Distribution", stat_perc: "Quartile & Percentile", stat_prop: "Error Propagation",
-                math_title: "Mathematics", math_desc: "Algebra, Calculus, & Sequences.", math_plot: "2D Graph Plotter",
+                math_title: "Mathematics", math_desc: "Algebra, Calculus, & Sequences.", math_plot: "2D Graph Plotter", math_plot_btn: "Draw Graph",
                 math_integral: "Definite Integral (Simpson)", math_int_btn: "Calculate Area", math_seq: "Sequence & Series", math_seq_arith: "Arithmetic", math_seq_geo: "Geometric",
                 math_vec3d: "3D Vector Operations", math_calc: "Static Calculator", math_base: "Base Converter (IT)", math_spldv: "SPLDV Cramer", math_spldv_btn: "Linear Eq",
                 math_spltv: "SPLTV (3x3)", math_quad: "Quadratic Equation", math_quad_btn: "Quadratic Eq", math_mat3: "3x3 Matrix Det", math_mat3_btn: "3x3 Matrix Det", btn_solve: "Solve",
-                math_deriv: "Numerical Derivative f'(x)", math_lcm: "GCD & LCM",
+                math_deriv: "Numerical Derivative f'(x)", math_lcm: "GCD & LCM", math_lcm_btn: "Calculate GCD & LCM", math_prefix: "SI Prefix Converter",
                 phys_title: "Physics", phys_desc: "Giant Visualizers & Simulators.", phys_vec: "2D Vector Resultant", vec_add: "Add Vector", vec_calc: "Calculate", phys_wave: "Harmonic Wave Simulation", phys_orbit: "Central Orbit Simulation",
-                phys_rlc: "RLC Circuit (AC)", phys_rlc_btn: "Calculate Impedance (Z)", phys_imp: "Impedance (Z)", phys_fres: "Resonance Freq (f)", phys_form: "Giant Formula Calculator",
+                phys_rlc: "RLC Circuit (AC & DC)", phys_rlc_btn: "Calculate RLC Analysis", phys_imp: "Impedance (Z)", phys_fres: "Resonance Freq (f)", phys_form: "Giant Formula Calculator",
                 tab_stats: "Stats", tab_math: "Math", tab_phys: "Physics", set_theme: "Appearance & Mode", set_light: "Light", set_dark: "Dark", set_color: "Material You Color", set_lang: "Language",
+                gemini_title: "Gemini API Key (AI Insight)", buy_coffee: "Support Developer (Saweria)", ai_insight: "AI Insight",
                 set_key_info: "*Key is stored locally in your browser (localStorage).", alert_api: "Please enter your Gemini API Key in Settings.", alert_min2: "Enter at least 2 valid numbers!",
                 alert_binom: "Invalid input for Binomial!", alert_ttest: "Invalid input for T-Test!", alert_reg: "Datasets X and Y must have the same length (min 2)!",
-                alert_spear: "Need min. 3 pairs of data, X and Y length must be equal!", alert_comb: "Invalid values! (n ≥ r ≥ 0)", alert_int: "Invalid input. Ensure a < b.", alert_int_func: "Invalid function. Use JS format, e.g., x**2 + 2*x",
-                txt_load: "Processing...",
+                alert_spear: "Need min. 3 pairs of data, X and Y length must be equal!", alert_comb: "Invalid values! (n ≥ r ≥ 0)", alert_int: "Invalid input. Ensure a < b.", alert_int_func: "Invalid function. Use JS format, e.g., x^2 + 2*x",
+                alert_poisson: "Invalid Poisson input!", alert_perc: "Dataset min 2 numbers, Percentile 1-99!", alert_prop: "Invalid Propagation input!", alert_deriv: "Invalid input!", alert_lcm: "Enter at least 2 positive integers!", alert_rlc: "Invalid RLC input!",
+                txt_load: "Processing...", txt_analyzing: "Analyzing...",
                 // Tooltips EN
                 info_stats_basic_desc: "Calculate mean, variance, standard deviation, errors, and visualize the normal distribution curve.", info_stats_basic_ex: "Enter student exam scores: 80 85 90 75 80",
                 info_stats_binom_desc: "Calculates the probability of k successes in n trials, with probability p of success on each trial.", info_stats_binom_ex: "Flip a coin 10 times (n=10), prob of heads 0.5 (p=0.5), exactly 3 heads (k=3).",
@@ -952,13 +959,13 @@
                 info_stats_spear_desc: "Measures the strength and direction of the rank relationship between two datasets.", info_stats_spear_ex: "Are students good at math (X) also good at physics (Y)?",
                 info_stats_comb_desc: "Calculates Permutations (order matters) and Combinations (order doesn't matter).", info_stats_comb_ex: "Choose 3 committee members out of 10 people (n=10, r=3).",
                 info_stats_prop_desc: "Calculate the combined error propagation from addition or multiplication of two physical quantities.", info_stats_prop_ex: "Side A = 10±0.1, Side B = 5±0.2. Area (AxB) = ?",
-                info_math_deriv_desc: "Calculates the gradient/slope of a function f(x) at a specific point x using numerical central difference.", info_math_deriv_ex: "Find f'(x) for function x**2 at x = 5.",
+                info_math_deriv_desc: "Calculates the gradient/slope of a function f(x) at a specific point x using numerical central difference.", info_math_deriv_ex: "Find f'(x) for function x^2 at x = 5.",
                 info_math_lcm_desc: "Finds the Greatest Common Divisor (GCD) and Least Common Multiple (LCM) of numbers.", info_math_lcm_ex: "Numbers: 12, 18, 24",
-                info_math_int_desc: "Calculates the area under a mathematical function curve using Simpson's approximation method.", info_math_int_ex: "Area under f(x) = x**2 from x=0 to x=5.",
+                info_math_int_desc: "Calculates the area under a mathematical function curve using Simpson's approximation method.", info_math_int_ex: "Area under f(x) = x^2 from x=0 to x=5.",
                 info_math_seq_desc: "Find the n-th term (Un) and the sum of the first n terms (Sn) for Arithmetic/Geometric series.", info_math_seq_ex: "Series: 2, 4, 6, 8... (Start=2, Diff=2, Find 10th term).",
                 info_math_vec3d_desc: "Calculates Dot product (scalar) and Cross product (perpendicular vector).", info_math_vec3d_ex: "A = 1i + 2j + 3k and B = 4i + 5j + 6k.",
                 info_math_calc_desc: "A solid basic calculator for quick calculations without switching apps.", info_math_calc_ex: "Calculate (5+3)*2",
-                info_math_plot_desc: "2D graph visualization for mathematical functions f(x). Default X-axis range is -10 to 10.", info_math_plot_ex: "Math.sin(x), Math.cos(x), or x**2",
+                info_math_plot_desc: "2D graph visualization for mathematical functions f(x). Default X-axis range is -10 to 10.", info_math_plot_ex: "Math.sin(x), Math.cos(x), or x^2",
                 info_math_spldv_desc: "Solves a system of two linear equations with two variables (x and y) using Cramer's rule.", info_math_spldv_ex: "2x + y = 5 and 3x - y = 0",
                 info_math_spltv_desc: "Solves a system of three linear equations (x, y, z) using Cramer's rule for 3x3 matrices.", info_math_spltv_ex: "x+y+z=6, 2x-y+z=3, etc.",
                 info_math_quad_desc: "Finds the real or imaginary roots of the quadratic equation ax² + bx + c = 0.", info_math_quad_ex: "x² - 5x + 6 = 0 (a=1, b=-5, c=6)",
@@ -966,9 +973,16 @@
                 info_math_prefix_desc: "Quick conversion tool for various SI Unit prefixes (Pico, Nano, Micro, Kilo, Mega, Giga, Tera).", info_math_prefix_ex: "Convert 5 Kilo (1e3) to Milli (1e-3).",
                 info_math_base_desc: "Convert numbers between Decimal, Binary, Octal, and Hexadecimal bases.", info_math_base_ex: "Convert 255 (Decimal) to Hexadecimal.",
                 info_phys_vec_desc: "Calculates total force from multiple vectors and visually simulates the direction.", info_phys_vec_ex: "Pull force 10N at 0°, and 5N at 90°.",
-                info_phys_rlc_desc: "Finds the total impedance and resonance frequency of an AC circuit with Resistor, Inductor, and Capacitor.", info_phys_rlc_ex: "R=10, L=0.5, C=100, ω=50.",
-                info_phys_wave_desc: "Simulate a traveling harmonic wave. Amplitude controls height, Frequency (omega) controls speed.", info_phys_wave_ex: "Set high amplitude and low frequency.",
-                info_phys_orbit_desc: "Visual simulation of central gravity orbit. Velocity affects the orbital path.", info_phys_orbit_ex: "Increase velocity for faster rotation.",
+                info_phys_rlc_desc: "Hybrid RLC. Finds impedance in AC current, or diagnoses damping type (Transient) in DC current.", info_phys_rlc_ex: "R=10, L=0.5, C=100, ω/V=50.",
+                info_phys_wave_desc: "Interactive harmonic traveling wave simulation. Adjust amplitude, frequency, and wavelength.", info_phys_wave_ex: "Set high amplitude and low frequency, try Interference mode.",
+                // Placeholders EN
+                prop_x: "Value X", prop_dx: "Error ΔX", prop_y: "Value Y", prop_dy: "Error ΔY", stat_perc_p: "Find Percentile (1-99)",
+                ttest_mean: "Sample Mean (x̄)", ttest_pop: "Population Mean (μ₀)", ttest_std: "Std Deviation (s)", ttest_n: "Sample Size (n)",
+                reg_x: "Dataset X (Comma/Space)", reg_y: "Dataset Y (Comma/Space)", reg_predict: "Test X value", spear_x: "Variable X Dataset", spear_y: "Variable Y Dataset",
+                stat_n_ph: "n", stat_r_ph: "r", stat_k_ph: "k", stat_p_ph: "Prob(p)", pois_lam: "Mean (λ)", pois_k: "Occurrences (k)",
+                math_plot_func: "Math.sin(x) * x", math_deriv_func: "Function f(x), e.g., x^2 + 2x", math_deriv_x: "At x value =", math_int_func: "Function f(x), e.g., x^2 + 2*x", math_int_a: "Lower Limit (a)", math_int_b: "Upper Limit (b)",
+                math_lcm_input: "Comma separated numbers (e.g., 12, 18, 24)", seq_a: "Start (a)", seq_r: "Diff/Ratio (b/r)", seq_n: "n-th Term", base_input: "Enter value", vec_mag_ph: "Force (N)", vec_ang_ph: "Angle (°)",
+                rlc_r: "R (Ω)", rlc_l: "L (H)", rlc_c: "C (μF)", rlc_w: "Angular Freq ω (AC) / Volts (DC)", wave_opt_single: "1 Traveling Wave", wave_opt_standing: "Standing Wave (Stationary)", wave_opt_beat: "Beat Interference"
             }
         };
         
@@ -977,13 +991,26 @@
         function setLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n')); });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder'))); });
             document.getElementById('btnLangID').className = lang === 'id' ? 'flex-1 py-3 bg-primary text-onPrimary rounded-xl font-bold transition-all' : 'flex-1 py-3 bg-surfaceVariant rounded-xl font-bold transition-all';
             document.getElementById('btnLangEN').className = lang === 'en' ? 'flex-1 py-3 bg-primary text-onPrimary rounded-xl font-bold transition-all' : 'flex-1 py-3 bg-surfaceVariant rounded-xl font-bold transition-all';
-            document.getElementById('txt_load').innerText = t('txt_load');
+            
+            const rlcAC = document.querySelector('#rlcMode option[value="ac"]');
+            const rlcDC = document.querySelector('#rlcMode option[value="dc"]');
+            if(rlcAC) rlcAC.innerHTML = lang === 'id' ? "Analisis Impedansi (Arus AC)" : "Impedance Analysis (AC)";
+            if(rlcDC) rlcDC.innerHTML = lang === 'id' ? "Analisis Transien Redaman (Arus DC)" : "Transient Damping Analysis (DC)";
+
+            const waveMode = document.getElementById('waveMode');
+            if(waveMode) {
+                waveMode.options[0].innerHTML = t('wave_opt_single');
+                waveMode.options[1].innerHTML = t('wave_opt_standing');
+                waveMode.options[2].innerHTML = t('wave_opt_beat');
+            }
+
             renderFormulas(); 
         }
 
-        // ================= MODAL STACK SYSTEM & SWIPE GESTURE =================
+        // ================= MODAL STACK SYSTEM (NATIVE BACK & SWIPE HANDLING) =================
         let modalStack = [];
         
         function openModal(modalId) {
@@ -992,7 +1019,6 @@
             modalStack.push(modalId);
             window.history.pushState({ modal: modalId }, "");
             
-            // Swipe Down logic (Hanya untuk Bottom Sheet)
             if(el.classList.contains('modal-bottom')) {
                 const content = el.querySelector('.modal-content');
                 if (content && !content.dataset.swipeInitialized) {
@@ -1052,10 +1078,12 @@
             
             currentTabId = tabId;
 
-            // Resize Canvas jika ada
-            if(tabId === 'physics') { resizeCanvas(); resizeWaveCanvas(); resizeOrbitCanvas(); }
-            if(tabId === 'stats' && document.getElementById('statsResult').classList.contains('open')) resizeDistCanvas();
-            if(tabId === 'math' && document.getElementById('plotResWrapper').classList.contains('open')) resizePlotCanvas();
+            // Memanggil resize secara asinkron agar DOM sempat dirender browser
+            setTimeout(() => {
+                if(tabId === 'physics') { resizeCanvas(); resizeWaveCanvas(); }
+                if(tabId === 'stats' && document.getElementById('statsResult').classList.contains('open')) resizeDistCanvas();
+                if(tabId === 'math' && document.getElementById('plotResWrapper').classList.contains('open')) resizePlotCanvas();
+            }, 10);
         }
 
         function setTheme(mode) {
@@ -1099,7 +1127,7 @@
             const outBox = document.getElementById(`aiOut_${type}`);
             const boxContainer = document.getElementById(`aiBox_${type}`);
             boxContainer.classList.remove('hidden');
-            outBox.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 spinner inline-block"></i> ${t('txt_load')}`;
+            outBox.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 spinner inline-block"></i> ${currentLang === 'id' ? 'Menganalisis...' : 'Analyzing...'}`;
             lucide.createIcons();
 
             let promptID = "", promptEN = "";
@@ -1112,16 +1140,16 @@
                 promptEN = `Linear Regression: Equation y = ${regA.toFixed(3)} ${regB >= 0 ? '+' : '-'} ${Math.abs(regB).toFixed(3)}x. Explain the practical meaning of this slope.`;
             } else if (type === 'ttest') {
                 const val = document.getElementById('ttestResult').innerText;
-                promptID = `Uji T-Test (1 Sampel): Nilai ${val}. Berikan interpretasi singkat apakah ini mengindikasikan perbedaan signifikan.`;
-                promptEN = `T-Test (1 Sample): Value ${val}. Provide a brief interpretation of whether this indicates a significant difference.`;
+                promptID = `Uji T-Test (1 Sampel): Nilai ${val}. Berikan interpretasi singkat apakah ini mengindikasikan perbedaan signifikan berdasarkan tabel t standar.`;
+                promptEN = `T-Test (1 Sample): Value ${val}. Provide a brief interpretation of whether this indicates a significant difference based on standard t tables.`;
             } else if (type === 'vec') {
                 const res = document.getElementById('resR').innerText, ang = document.getElementById('resTheta').innerText;
-                promptID = `Vektor 2D: Resultan Gaya = ${res} N pada arah ${ang} derajat. Berikan interpretasi fisik/nyata tentang besaran gaya ini (contoh, setara beban apa).`;
+                promptID = `Vektor 2D: Resultan Gaya = ${res} N pada arah ${ang} derajat. Berikan interpretasi fisik tentang besaran gaya ini (contoh, setara beban apa yang diangkat melawan gravitasi bumi).`;
                 promptEN = `2D Vector: Resultant Force = ${res} N at ${ang} degrees. Provide a practical physical interpretation of this force magnitude.`;
             }
 
             const sys = currentLang === 'id' 
-                ? "Anda adalah asisten sains logis dan objektif. Gunakan bahasa Indonesia profesional dan modern. DILARANG KERAS menggunakan kata ganti informal seperti 'lu', 'gue', 'aku', 'kamu'. Gunakan kalimat pasif yang presisi." 
+                ? "Anda adalah asisten sains logis dan objektif. Gunakan bahasa Indonesia profesional dan modern. DILARANG KERAS menggunakan kata ganti informal seperti 'lu', 'gue', 'aku', 'kamu'." 
                 : "You are a logical and objective science assistant. Use professional modern English. Avoid overly casual pronouns.";
 
             try {
@@ -1155,7 +1183,6 @@
         }
 
         function resizeDistCanvas() { const canvas = document.getElementById('distCanvas'); const rect = canvas.parentElement.getBoundingClientRect(); if(rect.width > 0) { canvas.width = rect.width; canvas.height = rect.height; } }
-        window.addEventListener('resize', () => { if(document.getElementById('statsResult').classList.contains('open')) { resizeDistCanvas(); drawBellCurveSilent(); } });
         function drawBellCurveSilent() { drawBellCurve(lastMean, lastStd); }
 
         function drawBellCurve(mean, std) {
@@ -1178,10 +1205,10 @@
         function calcProp(op) {
             const x = parseFloat(document.getElementById('propX').value), dx = parseFloat(document.getElementById('propDX').value);
             const y = parseFloat(document.getElementById('propY').value), dy = parseFloat(document.getElementById('propDY').value);
-            if(isNaN(x)||isNaN(dx)||isNaN(y)||isNaN(dy)) return alert("Input Propagasi tidak valid!");
+            if(isNaN(x)||isNaN(dx)||isNaN(y)||isNaN(dy)) return alert(t('alert_prop'));
             let z = 0, dz = 0;
             if (op === 'add') { z = x + y; dz = Math.abs(dx) + Math.abs(dy); } 
-            else { z = x * y; dz = Math.abs(z) * (Math.abs(dx/x) + Math.abs(dy/y)); } // Perkalian sederhana (max error)
+            else { z = x * y; dz = Math.abs(z) * (Math.abs(dx/x) + Math.abs(dy/y)); } 
             document.getElementById('propResult').innerText = "Z = " + z.toPrecision(5) + " ± " + dz.toPrecision(3);
             openMorph('propResWrapper');
         }
@@ -1190,7 +1217,7 @@
             const raw = document.getElementById('percData').value;
             const data = raw.replace(/[^0-9.,\s-]/g, '').split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
             const p = parseInt(document.getElementById('percP').value);
-            if(data.length < 2 || isNaN(p) || p < 1 || p > 99) return alert("Dataset minimal 2 angka, Persentil 1-99!");
+            if(data.length < 2 || isNaN(p) || p < 1 || p > 99) return alert(t('alert_perc'));
             
             data.sort((a,b) => a-b);
             const index = (p / 100) * (data.length - 1);
@@ -1210,7 +1237,7 @@
 
         function calcPoisson() {
             const lam = parseFloat(document.getElementById('poisLam').value), k = parseInt(document.getElementById('poisK').value);
-            if(isNaN(lam) || isNaN(k) || k < 0 || lam < 0) return alert("Input Poisson tidak valid!");
+            if(isNaN(lam) || isNaN(k) || k < 0 || lam < 0) return alert(t('alert_poisson'));
             const p = Math.exp(-lam) * Math.pow(lam, k) / fact(k);
             document.getElementById('poissonResult').innerText = "P = " + p.toPrecision(5);
             openMorph('poissonResWrapper');
@@ -1280,7 +1307,6 @@
             setTimeout(() => { resizePlotCanvas(); drawPlot2DSilent(); }, 350);
         }
         function resizePlotCanvas() { const canvas = document.getElementById('plotCanvas'); const rect = canvas.parentElement.getBoundingClientRect(); if(rect.width > 0) { canvas.width = rect.width; canvas.height = rect.height; } }
-        window.addEventListener('resize', () => { if(document.getElementById('plotResWrapper').classList.contains('open')) { resizePlotCanvas(); drawPlot2DSilent(); } });
         
         function drawPlot2DSilent() {
             if(!lastPlotFunc) return;
@@ -1294,7 +1320,6 @@
 
             const f = (x) => { try { return Function('x', `"use strict"; return (${getSafeFunc(lastPlotFunc)});`)(x); } catch(e) { return NaN; } };
             
-            // X domain -10 to 10
             const xMin = -10, xMax = 10, yMin = -10, yMax = 10;
             const scaleX = w / (xMax - xMin), scaleY = h / (yMax - yMin);
 
@@ -1302,9 +1327,9 @@
             for(let px = 0; px <= w; px++) {
                 const xVal = xMin + (px / w) * (xMax - xMin);
                 const yVal = f(xVal);
-                if (isNaN(yVal) || Math.abs(yVal) > 1000) continue; // Skip asimtot/error
+                if (isNaN(yVal) || Math.abs(yVal) > 1000) continue; 
                 
-                const py = cy - (yVal * scaleY); // y inverted
+                const py = cy - (yVal * scaleY); 
                 if(px === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
             }
             ctx.strokeStyle = curveColor; ctx.lineWidth = 2; ctx.stroke();
@@ -1312,7 +1337,7 @@
 
         function calcDerivative() {
             const funcStr = document.getElementById('derivFunc').value, xVal = parseFloat(document.getElementById('derivX').value);
-            if(!funcStr || isNaN(xVal)) return alert("Input tidak valid!");
+            if(!funcStr || isNaN(xVal)) return alert(t('alert_deriv'));
             const f = (x) => { try { return Function('x', `"use strict"; return (${getSafeFunc(funcStr)});`)(x); } catch(e) { return NaN; } };
             const h = 1e-5;
             const grad = (f(xVal + h) - f(xVal - h)) / (2 * h);
@@ -1331,7 +1356,7 @@
 
         function calcFPBKPK() {
             const raw = document.getElementById('lcmInput').value.replace(/[^0-9,\s]/g, '').split(/[\s,]+/).map(Number).filter(n => !isNaN(n) && n > 0);
-            if(raw.length < 2) return alert("Masukkan minimal 2 angka bulat positif!");
+            if(raw.length < 2) return alert(t('alert_lcm'));
             const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
             const lcm = (a, b) => (a * b) / gcd(a, b);
             let resGCD = raw[0], resLCM = raw[0];
@@ -1407,12 +1432,8 @@
         }
 
         // ================= TAB 3: FISIKA =================
-        let animationFrames = []; // Track active animations to save battery when tab switched
-        
-        function clearAnimations() {
-            animationFrames.forEach(id => cancelAnimationFrame(id));
-            animationFrames = [];
-        }
+        let animationFrames = []; 
+        function clearAnimations() { animationFrames.forEach(id => cancelAnimationFrame(id)); animationFrames = []; }
 
         let vectors = [];
         function addVector() {
@@ -1458,76 +1479,80 @@
         }
 
         // --- Simulasi Gelombang ---
-        let waveTime = 0;
+        let waveTime = 0; let isWavePlaying = true;
+        function toggleWavePlay() {
+            isWavePlaying = !isWavePlaying;
+            document.getElementById('wavePlayBtn').innerHTML = isWavePlaying ? '<i data-lucide="pause"></i>' : '<i data-lucide="play"></i>';
+            lucide.createIcons();
+        }
         function resizeWaveCanvas() { const canvas = document.getElementById('waveCanvas'); const rect = canvas.parentElement.getBoundingClientRect(); if(rect.width > 0) { canvas.width = rect.width; canvas.height = rect.height; animateWave(); } }
         function animateWave() {
             if(currentTabId !== 'physics') return;
             const canvas = document.getElementById('waveCanvas'), ctx = canvas.getContext('2d');
             if(!canvas || canvas.width === 0) return;
             const w = canvas.width, h = canvas.height, cy = h/2;
+            const mode = document.getElementById('waveMode').value;
             const A = parseFloat(document.getElementById('waveA').value);
-            const freq = parseFloat(document.getElementById('waveW').value) / 10;
-            const curveColor = getComputedStyle(document.documentElement).getPropertyValue('--md-primary').trim();
-            const gridColor = document.documentElement.classList.contains('dark') ? '#3f484a' : '#dbe4e6';
+            const f = parseFloat(document.getElementById('waveF').value);
+            const lam = parseFloat(document.getElementById('waveL').value);
+            
+            const k = (2 * Math.PI) / lam; const w1 = 2 * Math.PI * f; const v = lam * f; const T = 1 / f;
+
+            document.getElementById('waveEq').innerText = mode === 'standing' ? `y=2A sin(kx)cos(ωt)` : (mode === 'interference' ? `y=A sin(k₁x-ω₁t)+A sin(k₂x-ω₂t)` : `y=A sin(kx-ωt)`);
+            document.getElementById('waveInfoVal').innerText = `v=${v.toFixed(1)} | T=${T.toFixed(2)}s`;
 
             ctx.clearRect(0,0,w,h);
-            ctx.strokeStyle = gridColor; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+            ctx.strokeStyle = document.documentElement.classList.contains('dark') ? '#3f484a' : '#dbe4e6'; ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+            ctx.beginPath(); ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--md-primary').trim(); ctx.lineWidth = 3;
             
-            ctx.beginPath(); ctx.strokeStyle = curveColor; ctx.lineWidth = 3;
-            for(let x=0; x<w; x++) {
-                const y = cy + A * Math.sin((x * 0.05) - (waveTime * freq));
-                if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+            for(let px=0; px<w; px++) {
+                const x = px; let y = 0;
+                if (mode === 'single') y = A * Math.sin(k * x - w1 * waveTime);
+                else if (mode === 'standing') y = 2 * A * Math.sin(k * x) * Math.cos(w1 * waveTime);
+                else if (mode === 'interference') {
+                    const f2 = f * 1.15; const w2 = 2 * Math.PI * f2;
+                    y = A * Math.sin(k * x - w1 * waveTime) + A * Math.sin(k * x - w2 * waveTime);
+                }
+                const py = cy - y;
+                if(px===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
             }
             ctx.stroke();
-            waveTime += 0.5;
+
+            if (isWavePlaying) waveTime += 0.02;
             animationFrames.push(requestAnimationFrame(animateWave));
         }
 
-        // --- Simulasi Orbit ---
-        let orbitTime = 0;
-        function resizeOrbitCanvas() { const canvas = document.getElementById('orbitCanvas'); const rect = canvas.parentElement.getBoundingClientRect(); if(rect.width > 0) { canvas.width = rect.width; canvas.height = rect.height; animateOrbit(); } }
-        function animateOrbit() {
-            if(currentTabId !== 'physics') return;
-            const canvas = document.getElementById('orbitCanvas'), ctx = canvas.getContext('2d');
-            if(!canvas || canvas.width === 0) return;
-            const w = canvas.width, h = canvas.height, cx = w/2, cy = h/2;
-            const v = parseFloat(document.getElementById('orbitV').value) / 50;
-            const curveColor = getComputedStyle(document.documentElement).getPropertyValue('--md-primary').trim();
-            
-            ctx.clearRect(0,0,w,h);
-            
-            // Draw Sun
-            ctx.beginPath(); ctx.arc(cx, cy, 15, 0, 2*Math.PI); ctx.fillStyle = '#eab308'; ctx.fill();
-            
-            // Draw Orbit path
-            ctx.beginPath(); ctx.ellipse(cx, cy, cx*0.8, cy*0.6, 0, 0, 2*Math.PI); ctx.strokeStyle = document.documentElement.classList.contains('dark') ? '#3f484a' : '#dbe4e6'; ctx.lineWidth = 1; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
-            
-            // Draw Planet
-            const px = cx + (cx*0.8) * Math.cos(orbitTime);
-            const py = cy + (cy*0.6) * Math.sin(orbitTime);
-            ctx.beginPath(); ctx.arc(px, py, 8, 0, 2*Math.PI); ctx.fillStyle = curveColor; ctx.fill();
-
-            orbitTime += v;
-            animationFrames.push(requestAnimationFrame(animateOrbit));
-        }
-
         window.addEventListener('resize', () => { 
-            if(currentTabId === 'physics') { clearAnimations(); resizeWaveCanvas(); resizeOrbitCanvas(); resizeCanvas(); }
+            if(currentTabId === 'physics') { clearAnimations(); resizeWaveCanvas(); resizeCanvas(); }
         });
 
         function calcRLC() {
-            const R = parseFloat(document.getElementById('rlcR').value), L = parseFloat(document.getElementById('rlcL').value), C = parseFloat(document.getElementById('rlcC').value) * 1e-6, w = parseFloat(document.getElementById('rlcFreq').value);
-            if(isNaN(R)||isNaN(L)||isNaN(C)||isNaN(w)) return;
-            const XL = w * L, XC = 1 / (w * C);
-            document.getElementById('rlcZ').innerText = Math.sqrt(Math.pow(R, 2) + Math.pow(XL - XC, 2)).toFixed(2);
-            document.getElementById('rlcFres').innerText = (1 / (2 * Math.PI * Math.sqrt(L * C))).toFixed(2);
+            const mode = document.getElementById('rlcMode').value;
+            const R = parseFloat(document.getElementById('rlcR').value), L = parseFloat(document.getElementById('rlcL').value), C = parseFloat(document.getElementById('rlcC').value) * 1e-6, W_V = parseFloat(document.getElementById('rlcFreq').value);
+            if(isNaN(R)||isNaN(L)||isNaN(C)||isNaN(W_V)) return alert(t('alert_rlc'));
+            
+            let html = "";
+            if (mode === 'ac') {
+                const w = W_V;
+                const XL = w * L, XC = 1 / (w * C);
+                const Z = Math.sqrt(Math.pow(R, 2) + Math.pow(XL - XC, 2));
+                const Fres = 1 / (2 * Math.PI * Math.sqrt(L * C));
+                html = `<div class="flex justify-between"><span>Induktif (X_L)</span><span class="font-black">${XL.toFixed(2)} Ω</span></div><div class="flex justify-between"><span>Kapasitif (X_C)</span><span class="font-black">${XC.toFixed(2)} Ω</span></div><div class="flex justify-between border-t border-outline/20 pt-2 mt-1"><span>Impedansi (Z)</span><span class="font-black text-primary">${Z.toFixed(2)} Ω</span></div><div class="flex justify-between mt-1"><span>Freq Resonansi (f)</span><span class="font-black text-primary">${Fres.toFixed(2)} Hz</span></div>`;
+            } else {
+                const alpha = R / (2 * L);
+                const w0 = 1 / Math.sqrt(L * C);
+                let status = "";
+                if (alpha > w0) status = "Overdamped (Redaman Lebih)";
+                else if (alpha < w0) status = "Underdamped (Redaman Kurang)";
+                else status = "Critically Damped (Redaman Kritis)";
+                html = `<div class="flex justify-between"><span>Redaman (α)</span><span class="font-black">${alpha.toFixed(2)} Np/s</span></div><div class="flex justify-between"><span>Freq Natural (ω₀)</span><span class="font-black">${w0.toFixed(2)} rad/s</span></div><div class="border-t border-outline/20 pt-2 mt-1 text-center font-bold text-primary">${status}</div>`;
+            }
+            document.getElementById('rlcOutData').innerHTML = html;
             openMorph('rlcResWrapper');
         }
 
         // Satuan Engine & Rumus Raksasa Fisika
-        const unitLib = { 
-            m: {'m':1, 'cm':0.01, 'km':1000}, kg: {'kg':1, 'g':0.001}, v: {'m/s':1, 'km/h':0.277778}, a: {'m/s²':1, 'cm/s²':0.01}, t: {'K':1, '°C': 'C_TO_K'}, j: {'J':1, 'kJ':1000}, area: {'m²':1, 'cm²':0.0001}, vol: {'m³':1, 'liter':0.001} 
-        };
+        const unitLib = { m: {'m':1, 'cm':0.01, 'km':1000}, kg: {'kg':1, 'g':0.001}, v: {'m/s':1, 'km/h':0.277778}, a: {'m/s²':1, 'cm/s²':0.01}, t: {'K':1, '°C': 'C_TO_K'}, j: {'J':1, 'kJ':1000}, area: {'m²':1, 'cm²':0.0001}, vol: {'m³':1, 'liter':0.001} };
         const formulas = [
             { id: 'glbb', name: 'Gerak Lurus (GLBB)', sym: 's = v₀t + ½at²', baseRes: 'm', desc: {id: 'Jarak tempuh dengan percepatan tetap.', en: 'Distance traveled with constant acceleration.'}, ex: {id: 'Mobil v₀=5, a=2, t=3s.', en: 'Car v₀=5, a=2, t=3s.'}, inputs: [ { id: 'v0', label: 'V Awal (m/s)' }, { id: 't', label: 'Waktu (s)' }, { id: 'a', label: 'Percepatan (m/s²)' } ], calc: (args) => args[0]*args[1] + 0.5*args[2]*args[1]*args[1] },
             { id: 'momentum', name: 'Momentum', sym: 'p = m.v', baseRes: 'kg.m/s', desc: {id: 'Kekuatan gerak sebuah benda bermassa m.', en: 'Force of motion of an object mass m.'}, ex: {id: 'Truk 1000kg melaju 20m/s.', en: '1000kg truck at 20m/s.'}, inputs: [ { id: 'm', label: 'Massa', type: 'kg' }, { id: 'v', label: 'Kecepatan', type: 'v' } ], calc: (args) => args[0] * args[1] },
