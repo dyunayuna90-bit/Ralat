@@ -80,7 +80,7 @@
             background-color: var(--md-surface); color: var(--md-on-surface);
             -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease;
             padding-top: env(safe-area-inset-top);
-            overflow: hidden; /* Mencegah body scroll, scroll diatur tiap section */
+            overflow: hidden; 
         }
 
         * { outline: none !important; box-shadow: none !important; border: none !important; scrollbar-width: none; }
@@ -97,30 +97,24 @@
         .calc-btn { transition: transform 0.1s ease-out, border-radius 0.2s, background-color 0.2s; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; user-select: none; }
         .calc-btn:active { transform: scale(0.85); border-radius: 12px; background-color: var(--md-primary); color: var(--md-on-primary); }
 
-        /* Accordion Logic */
         .morph-container { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .morph-container.open { grid-template-rows: 1fr; }
         .morph-inner { overflow: hidden; }
 
-        /* Isolasi Scroll tiap Tab */
         .tab-section { position: absolute; inset: 0; overflow-y: auto; padding-bottom: 6rem; display: none; }
         .tab-section.active { display: block; }
 
-        /* Modal Stack System */
         .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 50;}
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         
-        /* Modal Bottom Sheet */
         .modal-bottom .modal-content { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; touch-action: pan-y; }
         .modal-bottom.active .modal-content { transform: translateY(0); }
         
-        /* Modal Center */
         .modal-center .modal-content { transform: scale(0.9); opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); max-height: 90vh; overflow-y: auto; }
         .modal-center.active .modal-content { transform: scale(1); opacity: 1; }
 
         .modal-grabber { width: 40px; height: 5px; background-color: var(--md-outline); border-radius: 10px; margin: 0 auto 16px auto; opacity: 0.3; }
 
-        /* AI Gradient Text */
         .ai-gradient-text { background: linear-gradient(to right, var(--md-primary), #a855f7, var(--md-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto; animation: shine 3s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
 
@@ -147,17 +141,7 @@
                     <label class="block text-sm font-bold text-onSurfaceVariant" data-i18n="stats_input_label">Dataset (Pisahkan dgn koma/spasi)</label>
                     <button onclick="toggleCardInfo('stats_basic')" class="p-1 -mt-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-                
-                <div id="info_stats_basic" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_stats_basic_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_stats_basic_ex"></p>
-                        </div>
-                    </div>
-                </div>
+                <div id="info_stats_basic" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_basic_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_basic_ex"></p></div></div></div>
 
                 <textarea id="dataInput" rows="3" class="w-full bg-surface text-onSurface rounded-2xl p-4 resize-none font-mono" placeholder="10.5, 11.2, 10.8, 12.0"></textarea>
                 <button onclick="calculateStats()" class="btn-morph mt-4 w-full bg-primary text-onPrimary font-bold py-4 rounded-2xl flex items-center justify-center gap-2">
@@ -170,11 +154,8 @@
                     <div class="bg-primaryContainer text-onPrimaryContainer rounded-[2rem] p-6 mb-6 mt-2 relative overflow-hidden">
                         <div class="flex justify-between items-center mb-4 border-b border-onPrimaryContainer/10 pb-2">
                             <h3 class="font-black text-xl flex items-center gap-2"><i data-lucide="bar-chart-2"></i> <span data-i18n="stats_res_title">Hasil Analisis</span></h3>
-                            <button onclick="askDynamicAI('stats')" class="bg-surface text-primary px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 active:scale-90 transition-transform shadow-sm">
-                                AI Insight ✨
-                            </button>
+                            <button onclick="askDynamicAI('stats')" class="bg-surface text-primary px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 active:scale-90 transition-transform shadow-sm">AI Insight ✨</button>
                         </div>
-                        
                         <div class="grid grid-cols-2 gap-y-5 gap-x-4 mb-4">
                             <div><p class="text-xs opacity-70 font-semibold" data-i18n="st_n">Jumlah (N)</p><p class="font-black text-2xl" id="resN">-</p></div>
                             <div><p class="text-xs opacity-70 font-semibold" data-i18n="st_mean">Rata-rata (μ)</p><p class="font-black text-2xl" id="resMean">-</p></div>
@@ -185,20 +166,29 @@
                             <div><p class="text-xs opacity-70 font-semibold" data-i18n="st_err">Ralat Mutlak (Δx)</p><p class="font-black text-2xl text-primary" id="resDeltaX">-</p></div>
                             <div><p class="text-xs opacity-70 font-semibold" data-i18n="st_rel">Ralat Nisbi</p><p class="font-black text-2xl text-primary" id="resNisbi">-</p></div>
                         </div>
-
                         <div class="w-full bg-surface rounded-2xl p-4 mt-4 relative overflow-hidden">
                             <p class="text-xs opacity-70 font-bold mb-2 text-center uppercase tracking-wider" data-i18n="st_curve">Kurva Distribusi Normal</p>
                             <div class="w-full aspect-[2/1] relative"><canvas id="distCanvas" class="absolute top-0 left-0 w-full h-full"></canvas></div>
                         </div>
-
                         <div id="aiBox_stats" class="hidden mt-4 bg-surface rounded-xl p-4 border border-outline/10 relative">
-                            <div class="flex items-center gap-2 mb-2 text-primary">
-                                <span class="text-xs font-bold uppercase tracking-wider ai-gradient-text">AI Insight ✨</span>
-                            </div>
+                            <div class="flex items-center gap-2 mb-2 text-primary"><span class="text-xs font-bold uppercase tracking-wider ai-gradient-text">AI Insight ✨</span></div>
                             <p id="aiOut_stats" class="text-sm font-medium leading-relaxed text-onSurface opacity-90"></p>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Persentil & Kuartil (BARU) -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="percent" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_perc">Persentil & Kuartil</span></h3>
+                    <button onclick="toggleCardInfo('stats_perc')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                </div>
+                <div id="info_stats_perc" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_perc_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_perc_ex"></p></div></div></div>
+                <input type="text" id="percData" placeholder="Dataset (Koma/Spasi)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-2">
+                <input type="number" id="percP" placeholder="Cari Persentil Ke- (1-99)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm mb-3 text-center">
+                <button onclick="calcPercentile()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung Persentil</button>
+                <div id="percResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="percResult">-</div></div></div>
             </div>
 
             <!-- Uji Hipotesis -->
@@ -207,18 +197,7 @@
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="flask-conical" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_ttest">Uji T-Test (1 Sampel)</span></h3>
                     <button onclick="toggleCardInfo('stats_ttest')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-                
-                <div id="info_stats_ttest" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_stats_ttest_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_stats_ttest_ex"></p>
-                        </div>
-                    </div>
-                </div>
-
+                <div id="info_stats_ttest" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_ttest_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_ttest_ex"></p></div></div></div>
                 <div class="grid grid-cols-2 gap-2 mb-3">
                     <input type="number" id="ttestMean" placeholder="Rata-rata Sampel (x̄)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                     <input type="number" id="ttestPop" placeholder="Rata-rata Populasi (μ₀)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
@@ -226,56 +205,22 @@
                     <input type="number" id="ttestN" placeholder="Jumlah Data (n)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcTTest()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_ttest_btn">Hitung T-Value</button>
-                <div id="ttestResWrapper" class="morph-container">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl mt-2 flex flex-col justify-center gap-2 border border-outline/10">
-                            <div class="flex justify-between items-center">
-                                <span class="opacity-70 text-sm font-bold">T-Value</span>
-                                <span class="font-mono font-black text-2xl text-primary" id="ttestResult">-</span>
-                            </div>
-                            <button onclick="askDynamicAI('ttest')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button>
-                            <div id="aiBox_ttest" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_ttest" class="text-xs font-medium opacity-90"></p></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="ttestResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 flex flex-col justify-center gap-2 border border-outline/10"><div class="flex justify-between items-center"><span class="opacity-70 text-sm font-bold">T-Value</span><span class="font-mono font-black text-2xl text-primary" id="ttestResult">-</span></div><button onclick="askDynamicAI('ttest')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button><div id="aiBox_ttest" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_ttest" class="text-xs font-medium opacity-90"></p></div></div></div></div>
             </div>
 
             <!-- Regresi Linear -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_reg">Regresi Linear</span></h3>
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_reg">Regresi Linear (y = ax + b)</span></h3>
                     <button onclick="toggleCardInfo('stats_reg')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-                
-                <div id="info_stats_reg" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_stats_reg_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_stats_reg_ex"></p>
-                        </div>
-                    </div>
-                </div>
-
+                <div id="info_stats_reg" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_reg_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_reg_ex"></p></div></div></div>
                 <div class="grid grid-cols-1 gap-2 mb-3">
                     <input type="text" id="regX" placeholder="Dataset X (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                     <input type="text" id="regY" placeholder="Dataset Y (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                 </div>
                 <button onclick="calcRegression()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_reg_btn">Hitung Model</button>
-                <div id="regResWrapper" class="morph-container">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl mt-2 flex flex-col gap-2">
-                            <div class="text-center font-mono font-black text-xl text-primary" id="regEquation">-</div>
-                            <div class="flex gap-2 mt-2">
-                                <input type="number" id="regPredictX" placeholder="Uji nilai X" class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm" oninput="predictY()">
-                                <div class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm flex items-center justify-center"><span class="opacity-50 mr-2">y=</span><span id="regPredictY">-</span></div>
-                            </div>
-                            <button onclick="askDynamicAI('reg')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button>
-                            <div id="aiBox_reg" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_reg" class="text-xs font-medium opacity-90"></p></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="regResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 flex flex-col gap-2"><div class="text-center font-mono font-black text-xl text-primary" id="regEquation">-</div><div class="flex gap-2 mt-2"><input type="number" id="regPredictX" placeholder="Uji nilai X" class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm" oninput="predictY()"><div class="w-1/2 bg-surfaceVariant rounded-xl p-3 font-bold text-sm flex items-center justify-center"><span class="opacity-50 mr-2">y=</span><span id="regPredictY">-</span></div></div><button onclick="askDynamicAI('reg')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button><div id="aiBox_reg" class="hidden mt-2 pt-2 border-t border-outline/10"><p id="aiOut_reg" class="text-xs font-medium opacity-90"></p></div></div></div></div>
             </div>
 
             <!-- Korelasi Spearman -->
@@ -284,18 +229,7 @@
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="git-compare" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_spear">Korelasi Spearman (ρ)</span></h3>
                     <button onclick="toggleCardInfo('stats_spear')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-                
-                <div id="info_stats_spear" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_stats_spear_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_stats_spear_ex"></p>
-                        </div>
-                    </div>
-                </div>
-
+                <div id="info_stats_spear" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_spear_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_spear_ex"></p></div></div></div>
                 <div class="grid grid-cols-1 gap-2 mb-3">
                     <input type="text" id="spearX" placeholder="Dataset Variabel X (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
                     <input type="text" id="spearY" placeholder="Dataset Variabel Y (Koma)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm">
@@ -303,43 +237,56 @@
                 <button onclick="calcSpearman()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_spear_btn">Hitung Koefisien</button>
                 <div id="spearResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="spearResult">-</div></div></div>
             </div>
-            
-            <!-- Kombinatorika & Binomial -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <!-- Kombinatorika Mini -->
-                <div class="bg-surfaceVariant rounded-[2rem] p-4 card-morph flex flex-col justify-between">
-                    <div class="flex justify-between items-center mb-2">
-                        <i data-lucide="layout-grid" class="w-5 h-5 text-primary"></i>
-                        <button onclick="toggleCardInfo('stats_comb')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-4 h-4"></i></button>
-                    </div>
-                    <div id="info_stats_comb" class="morph-container info-accordion mb-2"><div class="morph-inner"><div class="p-2 bg-primary/10 rounded-xl text-[10px]"><p data-i18n="info_stats_comb_desc"></p></div></div></div>
-                    <div class="grid grid-cols-2 gap-1 mb-2">
-                        <input type="number" id="combN" placeholder="n" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                        <input type="number" id="combR" placeholder="r" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                    </div>
-                    <div class="grid grid-cols-2 gap-1">
-                        <button onclick="calcComb('P')" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph">nPr</button>
-                        <button onclick="calcComb('C')" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph">nCr</button>
-                    </div>
-                    <div id="combResWrapper" class="morph-container"><div class="morph-inner"><div class="text-center font-mono font-black text-lg text-primary mt-2" id="combResult">-</div></div></div>
-                </div>
 
-                <!-- Binomial Mini -->
-                <div class="bg-surfaceVariant rounded-[2rem] p-4 card-morph flex flex-col justify-between">
-                    <div class="flex justify-between items-center mb-2">
-                        <i data-lucide="target" class="w-5 h-5 text-primary"></i>
-                        <button onclick="toggleCardInfo('stats_binom')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-4 h-4"></i></button>
-                    </div>
-                    <div id="info_stats_binom" class="morph-container info-accordion mb-2"><div class="morph-inner"><div class="p-2 bg-primary/10 rounded-xl text-[10px]"><p data-i18n="info_stats_binom_desc"></p></div></div></div>
-                    <div class="grid grid-cols-2 gap-1 mb-2">
-                        <input type="number" id="binN" placeholder="n" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                        <input type="number" id="binK" placeholder="k" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs">
-                    </div>
-                    <input type="number" id="binP" placeholder="Prob(p)" step="0.1" class="w-full bg-surface rounded-lg p-2 text-center font-mono font-bold text-xs mb-2">
-                    <button onclick="calcBinomial()" class="bg-primaryContainer text-onPrimaryContainer font-bold py-2 rounded-lg text-xs btn-morph">P(X=k)</button>
-                    <div id="binomResWrapper" class="morph-container"><div class="morph-inner"><div class="text-center font-mono font-black text-lg text-primary mt-2" id="binomResult">-</div></div></div>
+            <!-- Kombinatorika Normal Width -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_comb">Kombinatorika</span></h3>
+                    <button onclick="toggleCardInfo('stats_comb')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
+                <div id="info_stats_comb" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_comb_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_comb_ex"></p></div></div></div>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <input type="number" id="combN" placeholder="Nilai n" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                    <input type="number" id="combR" placeholder="Nilai r" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <button onclick="calcComb('P')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">nPr (Permutasi)</button>
+                    <button onclick="calcComb('C')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">nCr (Kombinasi)</button>
+                </div>
+                <div id="combResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-2xl text-primary mt-2" id="combResult">-</div></div></div>
             </div>
+            
+            <!-- Probabilitas Binomial Normal Width -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_binom">Probabilitas Binomial</span></h3>
+                    <button onclick="toggleCardInfo('stats_binom')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                </div>
+                <div id="info_stats_binom" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_binom_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_binom_ex"></p></div></div></div>
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <input type="number" id="binN" placeholder="Total (n)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="binK" placeholder="Sukses (k)" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                    <input type="number" id="binP" placeholder="Peluang (p)" step="0.1" class="w-full bg-surface rounded-xl p-3 font-mono font-bold text-sm text-center">
+                </div>
+                <button onclick="calcBinomial()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl" data-i18n="stat_binom_btn">Hitung Probabilitas P(X=k)</button>
+                <div id="binomResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="binomResult">-</div></div></div>
+            </div>
+
+            <!-- Distribusi Poisson (BARU) -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-primary"></i> <span data-i18n="stat_poisson">Distribusi Poisson</span></h3>
+                    <button onclick="toggleCardInfo('stats_poisson')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                </div>
+                <div id="info_stats_poisson" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_stats_poisson_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_poisson_ex"></p></div></div></div>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <input type="number" id="poisLam" placeholder="Rata-rata (λ)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                    <input type="number" id="poisK" placeholder="Kejadian (k)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold">
+                </div>
+                <button onclick="calcPoisson()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung P(X=k)</button>
+                <div id="poissonResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl mt-2 text-center font-mono font-black text-2xl text-primary" id="poissonResult">-</div></div></div>
+            </div>
+
         </section>
 
         <!-- ==================== TAB 2: MATEMATIKA ==================== -->
@@ -349,17 +296,34 @@
                 <p class="text-sm text-onSurfaceVariant font-medium" data-i18n="math_desc">Aljabar, Kalkulus Numerik, & Barisan.</p>
             </div>
 
-            <!-- Modals Math Triggers (Solid Buttons) -->
+            <!-- Modals Math Triggers (Solid Pop Up Center) -->
             <div class="grid grid-cols-2 gap-4 mb-4">
-                <button onclick="openModal('spldvModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3">
+                <button onclick="openModal('spldvModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
                     <i data-lucide="square-equal" class="text-primary w-8 h-8"></i> <span data-i18n="math_spldv_btn">SPLDV Linear</span>
                 </button>
-                <button onclick="openModal('quadModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3">
+                <button onclick="openModal('spltvModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
+                    <i data-lucide="box-select" class="text-primary w-8 h-8"></i> <span>SPLTV (3x3)</span>
+                </button>
+                <button onclick="openModal('quadModal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
                     <i data-lucide="function-square" class="text-primary w-8 h-8"></i> <span data-i18n="math_quad_btn">Pers. Kuadrat</span>
                 </button>
-                <button onclick="openModal('mat3Modal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] col-span-2 flex flex-col items-center gap-3">
+                <button onclick="openModal('mat3Modal')" class="btn-morph bg-surfaceVariant text-onSurface font-bold py-6 rounded-[2rem] flex flex-col items-center gap-3 shadow-sm border border-outline/5">
                     <i data-lucide="grid-3x3" class="text-primary w-8 h-8"></i> <span data-i18n="math_mat3_btn">Det. Matriks 3x3</span>
                 </button>
+            </div>
+
+            <!-- Kalkulator Turunan Numerik (BARU) -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i> <span data-i18n="math_deriv">Turunan Numerik f'(x)</span></h3>
+                    <button onclick="toggleCardInfo('math_deriv')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                </div>
+                <div id="info_math_deriv" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_deriv_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_deriv_ex"></p></div></div></div>
+
+                <input type="text" id="derivFunc" placeholder="Fungsi f(x), misal: x**2 + 2*x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
+                <input type="number" id="derivX" placeholder="Pada nilai x =" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-3 text-sm text-center">
+                <button onclick="calcDerivative()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl">Hitung Gradien f'(x)</button>
+                <div id="derivResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-2xl text-primary mt-2" id="derivResult">-</div></div></div>
             </div>
 
             <!-- Kalkulator Integral Numerik -->
@@ -368,17 +332,7 @@
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="area-chart" class="w-5 h-5 text-primary"></i> <span data-i18n="math_integral">Integral Tentu (Simpson)</span></h3>
                     <button onclick="toggleCardInfo('math_int')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-
-                <div id="info_math_int" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_math_int_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_math_int_ex"></p>
-                        </div>
-                    </div>
-                </div>
+                <div id="info_math_int" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_int_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_int_ex"></p></div></div></div>
 
                 <input type="text" id="intFunc" placeholder="Fungsi f(x), misal: x**2 + 2*x" class="w-full bg-surface rounded-xl p-3 font-mono font-bold mb-2 text-sm">
                 <div class="grid grid-cols-2 gap-2 mb-3">
@@ -389,27 +343,34 @@
                 <div id="intResWrapper" class="morph-container"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-center font-mono font-black text-2xl text-primary mt-2" id="intResult">-</div></div></div>
             </div>
 
+            <!-- FPB & KPK (BARU) -->
+            <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="layers" class="w-5 h-5 text-primary"></i> <span data-i18n="math_lcm">FPB & KPK</span></h3>
+                    <button onclick="toggleCardInfo('math_lcm')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                </div>
+                <div id="info_math_lcm" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_lcm_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_lcm_ex"></p></div></div></div>
+                <input type="text" id="lcmInput" placeholder="Angka dipisah koma (Misal: 12, 18, 24)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm mb-3">
+                <button onclick="calcFPBKPK()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl text-sm">Hitung FPB & KPK</button>
+                <div id="lcmResWrapper" class="morph-container"><div class="morph-inner">
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="bg-surface p-3 rounded-xl text-center"><p class="text-xs font-bold opacity-70">FPB (GCD)</p><p class="text-xl font-black text-primary" id="resFPB">-</p></div>
+                        <div class="bg-surface p-3 rounded-xl text-center"><p class="text-xs font-bold opacity-70">KPK (LCM)</p><p class="text-xl font-black text-primary" id="resKPK">-</p></div>
+                    </div>
+                </div></div>
+            </div>
+
             <!-- Barisan & Deret -->
             <div class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="bar-chart-horizontal" class="w-5 h-5 text-primary"></i> <span data-i18n="math_seq">Barisan & Deret</span></h3>
                     <button onclick="toggleCardInfo('math_seq')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-                
-                <div id="info_math_seq" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_math_seq_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_math_seq_ex"></p>
-                        </div>
-                    </div>
-                </div>
+                <div id="info_math_seq" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_seq_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_seq_ex"></p></div></div></div>
 
                 <div class="grid grid-cols-3 gap-2 mb-3">
                     <input type="number" id="seqA" placeholder="Awal (a)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
-                    <input type="number" id="seqR" placeholder="Beda/Rasio (b/r)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
+                    <input type="number" id="seqR" placeholder="Beda/Rasio" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
                     <input type="number" id="seqN" placeholder="Suku ke (n)" class="w-full bg-surface rounded-xl p-3 text-center font-mono font-bold text-sm">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
@@ -430,17 +391,7 @@
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="box" class="w-5 h-5 text-primary"></i> <span data-i18n="math_vec3d">Operasi Vektor 3D</span></h3>
                     <button onclick="toggleCardInfo('math_vec3d')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-
-                <div id="info_math_vec3d" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_math_vec3d_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_math_vec3d_ex"></p>
-                        </div>
-                    </div>
-                </div>
+                <div id="info_math_vec3d" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_vec3d_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_vec3d_ex"></p></div></div></div>
 
                 <div class="flex gap-2 mb-2 items-center">
                     <span class="font-bold w-6">A:</span>
@@ -467,17 +418,7 @@
                     <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="hash" class="w-5 h-5 text-primary"></i> <span data-i18n="math_base">Konverter Basis (IT)</span></h3>
                     <button onclick="toggleCardInfo('math_base')" class="p-1 -mr-1 text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-90 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
                 </div>
-
-                <div id="info_math_base" class="morph-container mb-3 info-accordion">
-                    <div class="morph-inner">
-                        <div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm">
-                            <p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p>
-                            <p class="opacity-90 mb-3" data-i18n="info_math_base_desc"></p>
-                            <p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p>
-                            <p class="font-mono font-bold opacity-90" data-i18n="info_math_base_ex"></p>
-                        </div>
-                    </div>
-                </div>
+                <div id="info_math_base" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl border border-outline/10 text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose">Maksud & Kegunaan:</p><p class="opacity-90 mb-3" data-i18n="info_math_base_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example">Contoh Kasus:</p><p class="font-mono font-bold opacity-90" data-i18n="info_math_base_ex"></p></div></div></div>
 
                 <div class="grid grid-cols-2 gap-2 mb-3">
                     <select id="baseFrom" class="bg-surface rounded-xl p-3 font-bold outline-none"><option value="10">Desimal</option><option value="2">Biner</option><option value="8">Oktal</option><option value="16">Hexa</option></select>
@@ -562,7 +503,7 @@
                         <div class="bg-surface p-3 rounded-xl"><p class="text-xs font-bold opacity-70">Resultan (R)</p><p class="text-xl font-black"><span id="resR">0</span> N</p></div>
                         <div class="bg-surface p-3 rounded-xl"><p class="text-xs font-bold opacity-70">Arah (θ)</p><p class="text-xl font-black"><span id="resTheta">0</span>°</p></div>
                     </div>
-                    <button onclick="askDynamicAI('vec')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform">AI Insight ✨</button>
+                    <button onclick="askDynamicAI('vec')" class="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg text-sm mt-2 active:scale-95 transition-transform shadow-sm">AI Insight ✨</button>
                     <div id="aiBox_vec" class="hidden mt-2 p-3 bg-surface border border-outline/10 rounded-xl"><p id="aiOut_vec" class="text-xs font-medium opacity-90"></p></div>
 
                     <div class="w-full aspect-square bg-surface rounded-2xl relative overflow-hidden"><canvas id="vectorCanvas" class="absolute top-0 left-0 w-full h-full"></canvas></div>
@@ -605,7 +546,7 @@
             <!-- Rumus Dinamis Interaktif -->
             <div class="mb-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xl" data-i18n="phys_form">Kalkulator Rumus Fisika</h3>
+                    <h3 class="font-bold text-xl" data-i18n="phys_form">Kalkulator Rumus (Pilih Satuan)</h3>
                 </div>
                 <div id="formulaList" class="space-y-4"></div>
             </div>
@@ -631,9 +572,9 @@
         </button>
     </nav>
 
-    <!-- ================= MODALS (WITH STACK LOGIC) ================= -->
+    <!-- ================= MODALS (WITH STACK LOGIC & SWIPE DOWN) ================= -->
     
-    <!-- Settings Modal (Bottom Sheet) -->
+    <!-- Settings Modal (Bottom Sheet style) -->
     <div id="settingsModal" class="modal-overlay modal-bottom fixed inset-0 bg-black/80 flex items-end">
         <div class="modal-content w-full bg-surface rounded-t-[2rem] p-6 pb-12 shadow-2xl">
             <div class="modal-grabber"></div>
@@ -678,7 +619,7 @@
         </div>
     </div>
 
-    <!-- Modals Math (Pop-Up Tengah) -->
+    <!-- Modals Math (Pop-up Center) -->
     <div id="spldvModal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
         <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-4">
@@ -706,6 +647,40 @@
             </div>
             <button onclick="solveSPLDV()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl mb-4" data-i18n="btn_solve">Selesaikan</button>
             <div id="spldvResult" class="text-center font-mono font-bold text-lg flex flex-col gap-2"></div>
+        </div>
+    </div>
+
+    <!-- Modal SPLTV -->
+    <div id="spltvModal" class="modal-overlay modal-center fixed inset-0 bg-black/80 flex items-center justify-center p-4">
+        <div class="modal-content w-full sm:w-auto sm:min-w-[400px] bg-surface rounded-[2rem] p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-black text-xl" data-i18n="math_spltv">SPLTV 3x3</h3>
+                <div class="flex gap-2">
+                    <button onclick="toggleCardInfo('modal_spltv')" class="p-2 text-primary opacity-60 hover:opacity-100 btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button>
+                    <button onclick="closeModal('spltvModal')" class="p-2 bg-surfaceVariant rounded-full btn-morph"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+            
+            <div id="info_modal_spltv" class="morph-container info-accordion mb-4">
+                <div class="morph-inner">
+                    <div class="p-3 bg-primary/10 rounded-xl border border-primary/20 text-sm">
+                        <p class="opacity-90 mb-1" data-i18n="info_math_spltv_desc"></p>
+                        <p class="font-mono font-bold text-primary" data-i18n="info_math_spltv_ex"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 mb-2">
+                <input type="number" id="s3A" placeholder="A" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3B" placeholder="B" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3C" placeholder="C" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3D" placeholder="D" class="bg-primaryContainer text-onPrimaryContainer rounded-xl p-3 text-center font-mono font-bold text-sm">
+            </div>
+            <div class="grid grid-cols-4 gap-2 mb-2">
+                <input type="number" id="s3E" placeholder="E" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3F" placeholder="F" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3G" placeholder="G" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3H" placeholder="H" class="bg-primaryContainer text-onPrimaryContainer rounded-xl p-3 text-center font-mono font-bold text-sm">
+            </div>
+            <div class="grid grid-cols-4 gap-2 mb-4">
+                <input type="number" id="s3I" placeholder="I" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3J" placeholder="J" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3K" placeholder="K" class="bg-surfaceVariant rounded-xl p-3 text-center font-mono font-bold text-sm"><input type="number" id="s3L" placeholder="L" class="bg-primaryContainer text-onPrimaryContainer rounded-xl p-3 text-center font-mono font-bold text-sm">
+            </div>
+            <button onclick="solveSPLTV()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-bold py-3 rounded-xl mb-4" data-i18n="btn_solve">Selesaikan</button>
+            <div id="spltvResult" class="text-center font-mono font-bold text-lg flex flex-col gap-2"></div>
         </div>
     </div>
 
@@ -799,32 +774,40 @@
         const dict = {
             id: {
                 info_purpose: "Maksud & Kegunaan:", info_example: "Contoh Kasus:",
-                stats_title: "Statistika", stats_desc: "Analisis Data, Distribusi & Regresi.", stats_input_label: "Dataset (Pisahkan dgn koma/spasi)", stats_btn: "Analisis Data Tunggal",
+                stats_title: "Statistika", stats_desc: "Analisis Data, Distribusi & Probabilitas.", stats_input_label: "Dataset (Pisahkan dgn koma/spasi)", stats_btn: "Analisis Data Tunggal",
                 stats_res_title: "Hasil Analisis", st_n: "Jumlah (N)", st_mean: "Rata-rata (μ)", st_median: "Median", st_mode: "Modus", st_var: "Variansi (σ²)", st_std: "Std Deviasi (σ)",
                 st_err: "Ralat Mutlak (Δx)", st_rel: "Ralat Nisbi", st_curve: "Kurva Distribusi Normal", stat_reg: "Regresi Linear (y = ax + b)", stat_reg_btn: "Hitung Model",
                 stat_spear: "Korelasi Spearman (ρ)", stat_spear_btn: "Hitung Koefisien", stat_ttest: "Uji T-Test (1 Sampel)", stat_ttest_btn: "Hitung T-Value", stat_comb: "Kombinatorika",
-                stat_binom: "Probabilitas Binomial", stat_binom_btn: "Hitung Probabilitas P(X=k)", math_title: "Matematika", math_desc: "Aljabar, Kalkulus Numerik, & Barisan.",
+                stat_binom: "Probabilitas Binomial", stat_binom_btn: "Hitung Probabilitas P(X=k)", stat_poisson: "Distribusi Poisson", stat_perc: "Kuartil & Persentil",
+                math_title: "Matematika", math_desc: "Aljabar, Kalkulus Numerik, & Barisan.",
                 math_integral: "Integral Tentu (Simpson)", math_int_btn: "Hitung Luas Area", math_seq: "Barisan & Deret", math_seq_arith: "Aritmetika", math_seq_geo: "Geometri",
                 math_vec3d: "Operasi Vektor 3D", math_calc: "Kalkulator Dasar", math_base: "Konverter Basis (IT)", math_spldv: "SPLDV Cramer", math_spldv_btn: "SPLDV Linear",
-                math_quad: "Persamaan Kuadrat", math_quad_btn: "Pers. Kuadrat", math_mat3: "Det Matriks 3x3", math_mat3_btn: "Det. Matriks 3x3", btn_solve: "Selesaikan",
+                math_spltv: "SPLTV (3x3)", math_quad: "Persamaan Kuadrat", math_quad_btn: "Pers. Kuadrat", math_mat3: "Det Matriks 3x3", math_mat3_btn: "Det. Matriks 3x3", btn_solve: "Selesaikan",
+                math_deriv: "Turunan Numerik f'(x)", math_lcm: "FPB & KPK",
                 phys_title: "Fisika", phys_desc: "Vektor 2D, Rangkaian RLC, & Energi.", phys_vec: "Resultan Vektor 2D", vec_add: "Tambah Vektor", vec_calc: "Kalkulasi",
                 phys_rlc: "Rangkaian RLC (Arus AC)", phys_rlc_btn: "Hitung Impedansi (Z)", phys_imp: "Impedansi (Z)", phys_fres: "Freq Resonansi (f)", phys_form: "Kalkulator Rumus",
                 tab_stats: "Stats", tab_math: "Math", tab_phys: "Fisika", set_theme: "Tampilan & Mode", set_light: "Terang", set_dark: "Gelap", set_color: "Warna Material You", set_lang: "Bahasa / Language",
                 set_key_info: "*Kunci disimpan lokal di browser (localStorage).", alert_api: "Masukkan API Key Gemini di menu Pengaturan.", alert_min2: "Masukkan minimal 2 angka valid!",
                 alert_binom: "Input tidak valid untuk Binomial!", alert_ttest: "Input tidak valid untuk T-Test!", alert_reg: "Dataset X dan Y harus sama jumlahnya (min 2)!",
-                alert_spear: "Butuh min. 3 pasang data, jumlah X dan Y harus sama!", alert_comb: "Nilai tidak valid! (n ≥ r ≥ 0)", alert_int: "Input tidak valid. Pastikan a < b.", alert_int_func: "Fungsi tidak valid. Gunakan format misal: x*x + 2*x",
+                alert_spear: "Butuh min. 3 pasang data, jumlah X dan Y harus sama!", alert_comb: "Nilai tidak valid! (n ≥ r ≥ 0)", alert_int: "Input tidak valid. Pastikan a < b.", alert_int_func: "Fungsi tidak valid. Gunakan format misal: x**2 + 2*x",
                 txt_load: "Memproses...",
                 // Tooltips ID
                 info_stats_basic_desc: "Alat untuk menghitung rata-rata, variansi, standar deviasi, ralat, dan melihat kurva distribusi normal.", info_stats_basic_ex: "Masukkan nilai: 80 85 90 75 80",
                 info_stats_binom_desc: "Menghitung peluang k sukses dari n percobaan, dengan peluang sukses p setiap percobaan.", info_stats_binom_ex: "Koin dilempar 10x (n=10), peluang gambar 0.5 (p=0.5), ingin tepat 3 gambar (k=3).",
+                info_stats_poisson_desc: "Distribusi probabilitas diskret dari jumlah kejadian langka pada interval waktu/ruang tertentu.", info_stats_poisson_ex: "Rata-rata error 2 per hari (λ=2). Peluang terjadi 0 error hari ini (k=0).",
+                info_stats_perc_desc: "Mencari nilai pada posisi persentil spesifik dari sekumpulan data.", info_stats_perc_ex: "Cari P50 (Sama dengan Median) atau P75 (Kuartil 3).",
                 info_stats_ttest_desc: "Uji hipotesis untuk membandingkan rata-rata sampel dengan rata-rata populasi standar.", info_stats_ttest_ex: "Tes obat ke 10 org (n=10) dgn rata-rata kesembuhan 5 hari (x̄=5). Standar biasanya 7 hari (μ₀=7).",
                 info_stats_reg_desc: "Mencari garis lurus terbaik yang mewakili hubungan linear antara variabel X dan Y.", info_stats_reg_ex: "Hubungan jam belajar (X) dan nilai ujian (Y).",
                 info_stats_spear_desc: "Mengukur seberapa kuat dan searah hubungan peringkat antara dua dataset.", info_stats_spear_ex: "Korelasi nilai matematika (X) dengan fisika (Y).",
                 info_stats_comb_desc: "Menghitung Permutasi (urutan penting) dan Kombinasi (urutan tidak penting).", info_stats_comb_ex: "Memilih 3 pengurus dari 10 orang (n=10, r=3).",
+                info_math_deriv_desc: "Menghitung gradien/kemiringan dari fungsi f(x) pada titik x tertentu menggunakan pendekatan numerik beda pusat.", info_math_deriv_ex: "Cari f'(x) untuk fungsi x**2 pada nilai x = 5.",
+                info_math_lcm_desc: "Mencari Faktor Persekutuan Terbesar (GCD) dan Kelipatan Persekutuan Terkecil (LCM) dari deretan angka.", info_math_lcm_ex: "Angka: 12, 18, 24",
                 info_math_int_desc: "Menghitung luas di bawah kurva fungsi matematika menggunakan pendekatan numerik Simpson 1/3.", info_math_int_ex: "Luas kurva f(x) = x**2 dari x=0 sampai x=5.",
                 info_math_seq_desc: "Mencari suku ke-n (Un) dan jumlah n suku pertama (Sn) untuk deret Aritmetika/Geometri.", info_math_seq_ex: "Deret: 2, 4, 6... (Awal=2, Beda=2, Cari suku ke-10).",
                 info_math_vec3d_desc: "Menghitung perkalian titik (Dot/Skalar) dan perkalian silang (Cross/Vektor tegak lurus).", info_math_vec3d_ex: "A = 1i + 2j + 3k dan B = 4i + 5j + 6k.",
+                info_math_calc_desc: "Kalkulator dasar yang solid untuk perhitungan numerik instan.", info_math_calc_ex: "Hitung (5+3)*2",
                 info_math_spldv_desc: "Memecahkan dua persamaan linear dengan metode determinan matriks (Cramer).", info_math_spldv_ex: "2x + y = 5 dan 3x - y = 0",
+                info_math_spltv_desc: "Memecahkan tiga persamaan linear (x, y, z) dengan metode determinan (Cramer ordo 3x4).", info_math_spltv_ex: "x+y+z=6, 2x-y+z=3, dst.",
                 info_math_quad_desc: "Mencari akar-akar penyelesaian real atau imajiner dari persamaan kuadrat ax² + bx + c = 0.", info_math_quad_ex: "x² - 5x + 6 = 0 (a=1, b=-5, c=6)",
                 info_math_mat3_desc: "Menghitung nilai determinan dari bujursangkar matriks ordo 3x3 secara presisi.", info_math_mat3_ex: "Isi 9 kotak angka dan proses determinannya.",
                 info_math_base_desc: "Konversi nilai bilangan antar basis komputasi: Desimal, Biner, Oktal, Hexadesimal.", info_math_base_ex: "Ubah 255 (Desimal) ke Hexadesimal.",
@@ -838,10 +821,12 @@
                 stats_res_title: "Analysis Results", st_n: "Count (N)", st_mean: "Mean (μ)", st_median: "Median", st_mode: "Mode", st_var: "Variance (σ²)", st_std: "Std Dev (σ)",
                 st_err: "Absolute Error (Δx)", st_rel: "Relative Error", st_curve: "Normal Distribution Curve", stat_reg: "Linear Regression (y = ax + b)", stat_reg_btn: "Calculate Model",
                 stat_spear: "Spearman Correlation (ρ)", stat_spear_btn: "Calculate Coefficient", stat_ttest: "T-Test (1 Sample)", stat_ttest_btn: "Calculate T-Value", stat_comb: "Combinatorics",
-                stat_binom: "Binomial Probability", stat_binom_btn: "Calculate Probability P(X=k)", math_title: "Mathematics", math_desc: "Algebra, Calculus, & Sequences.",
+                stat_binom: "Binomial Probability", stat_binom_btn: "Calculate Probability P(X=k)", stat_poisson: "Poisson Distribution", stat_perc: "Quartile & Percentile",
+                math_title: "Mathematics", math_desc: "Algebra, Calculus, & Sequences.",
                 math_integral: "Definite Integral (Simpson)", math_int_btn: "Calculate Area", math_seq: "Sequence & Series", math_seq_arith: "Arithmetic", math_seq_geo: "Geometric",
                 math_vec3d: "3D Vector Operations", math_calc: "Static Calculator", math_base: "Base Converter (IT)", math_spldv: "SPLDV Cramer", math_spldv_btn: "Linear Eq",
-                math_quad: "Quadratic Equation", math_quad_btn: "Quadratic Eq", math_mat3: "3x3 Matrix Det", math_mat3_btn: "3x3 Matrix Det", btn_solve: "Solve",
+                math_spltv: "SPLTV (3x3)", math_quad: "Quadratic Equation", math_quad_btn: "Quadratic Eq", math_mat3: "3x3 Matrix Det", math_mat3_btn: "3x3 Matrix Det", btn_solve: "Solve",
+                math_deriv: "Numerical Derivative f'(x)", math_lcm: "GCD & LCM",
                 phys_title: "Physics", phys_desc: "2D Vectors, RLC Circuits, & Energy.", phys_vec: "2D Vector Resultant", vec_add: "Add Vector", vec_calc: "Calculate",
                 phys_rlc: "RLC Circuit (AC)", phys_rlc_btn: "Calculate Impedance (Z)", phys_imp: "Impedance (Z)", phys_fres: "Resonance Freq (f)", phys_form: "Formula Calculator",
                 tab_stats: "Stats", tab_math: "Math", tab_phys: "Physics", set_theme: "Appearance & Mode", set_light: "Light", set_dark: "Dark", set_color: "Material You Color", set_lang: "Language",
@@ -852,14 +837,20 @@
                 // Tooltips EN
                 info_stats_basic_desc: "Calculate mean, variance, standard deviation, errors, and visualize the normal distribution curve.", info_stats_basic_ex: "Enter student exam scores: 80 85 90 75 80",
                 info_stats_binom_desc: "Calculates the probability of k successes in n trials, with probability p of success on each trial.", info_stats_binom_ex: "Flip a coin 10 times (n=10), prob of heads 0.5 (p=0.5), exactly 3 heads (k=3).",
+                info_stats_poisson_desc: "Discrete probability distribution of rare events in a specific time/space interval.", info_stats_poisson_ex: "Average errors 2/day (λ=2). Prob of 0 errors today (k=0).",
+                info_stats_perc_desc: "Find the value at a specific percentile position in a dataset.", info_stats_perc_ex: "Find P50 (Median) or P75 (3rd Quartile).",
                 info_stats_ttest_desc: "Hypothesis test (1-sample) to compare sample mean to a known population mean.", info_stats_ttest_ex: "Testing if a new drug works in 5 days (x̄=5) compared to the standard 7 days (μ₀=7).",
                 info_stats_reg_desc: "Finds the best-fit straight line representing the relationship between two variables X and Y.", info_stats_reg_ex: "Relationship between study hours (X) and exam scores (Y).",
                 info_stats_spear_desc: "Measures the strength and direction of the rank relationship between two datasets.", info_stats_spear_ex: "Are students good at math (X) also good at physics (Y)?",
                 info_stats_comb_desc: "Calculates Permutations (order matters) and Combinations (order doesn't matter).", info_stats_comb_ex: "Choose 3 committee members out of 10 people (n=10, r=3).",
+                info_math_deriv_desc: "Calculates the gradient/slope of a function f(x) at a specific point x using numerical central difference.", info_math_deriv_ex: "Find f'(x) for function x**2 at x = 5.",
+                info_math_lcm_desc: "Finds the Greatest Common Divisor (GCD) and Least Common Multiple (LCM) of numbers.", info_math_lcm_ex: "Numbers: 12, 18, 24",
                 info_math_int_desc: "Calculates the area under a mathematical function curve using Simpson's approximation method.", info_math_int_ex: "Area under f(x) = x**2 from x=0 to x=5.",
                 info_math_seq_desc: "Find the n-th term (Un) and the sum of the first n terms (Sn) for Arithmetic/Geometric series.", info_math_seq_ex: "Series: 2, 4, 6, 8... (Start=2, Diff=2, Find 10th term).",
                 info_math_vec3d_desc: "Calculates Dot product (scalar) and Cross product (perpendicular vector).", info_math_vec3d_ex: "A = 1i + 2j + 3k and B = 4i + 5j + 6k.",
+                info_math_calc_desc: "A solid basic calculator for quick calculations without switching apps.", info_math_calc_ex: "Calculate (5+3)*2",
                 info_math_spldv_desc: "Solves a system of two linear equations with two variables (x and y) using Cramer's rule.", info_math_spldv_ex: "2x + y = 5 and 3x - y = 0",
+                info_math_spltv_desc: "Solves a system of three linear equations (x, y, z) using Cramer's rule for 3x3 matrices.", info_math_spltv_ex: "x+y+z=6, 2x-y+z=3, etc.",
                 info_math_quad_desc: "Finds the real or imaginary roots of the quadratic equation ax² + bx + c = 0.", info_math_quad_ex: "x² - 5x + 6 = 0 (a=1, b=-5, c=6)",
                 info_math_mat3_desc: "Instantly calculates the determinant of a 3x3 matrix with precision.", info_math_mat3_ex: "Fill the 9 boxes to see the determinant.",
                 info_math_base_desc: "Convert numbers between Decimal, Binary, Octal, and Hexadecimal bases.", info_math_base_ex: "Convert 255 (Decimal) to Hexadecimal.",
@@ -885,9 +876,8 @@
             el.classList.add('active');
             modalStack.push(modalId);
             window.history.pushState({ modal: modalId }, "");
-            document.body.style.overflow = 'hidden'; // Kunci scroll background
-
-            // Swipe Down logic (Hanya untuk Bottom Sheet)
+            
+            // Swipe Down logic (Hanya untuk Bottom Sheet Settings)
             if(el.classList.contains('modal-bottom')) {
                 const content = el.querySelector('.modal-content');
                 if (content && !content.dataset.swipeInitialized) {
@@ -917,28 +907,18 @@
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
             modalStack = modalStack.filter(id => id !== modalId);
-            if (modalStack.length === 0) document.body.style.overflow = '';
         }
         
         window.addEventListener('popstate', (e) => {
             if (modalStack.length > 0) {
                 const lastModal = modalStack.pop();
                 document.getElementById(lastModal).classList.remove('active');
-                if (modalStack.length === 0) document.body.style.overflow = '';
             }
         });
 
         // ================= UI, SCROLL MEMORY NATIVE =================
-        const scrollMem = { stats: 0, math: 0, physics: 0 };
-        let currentTabId = 'stats';
-
         function switchTab(tabId) {
-            const currentSec = document.getElementById(`tab-${currentTabId}`);
-            scrollMem[currentTabId] = currentSec.scrollTop; // Simpan memori spesifik tab
-            
-            document.querySelectorAll('.tab-section').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
             ['stats', 'math', 'physics'].forEach(id => {
                 const btn = document.getElementById(`nav-${id}`);
                 btn.classList.remove('flex-grow', 'bg-primary', 'text-onPrimary');
@@ -953,13 +933,8 @@
             activeNav.classList.remove('text-onSurfaceVariant');
             activeNav.querySelector('.tab-text').classList.remove('hidden');
             
-            currentTabId = tabId;
-            // Delay render sangat singkat agar DOM ngitung ukuran, lalu balikin scroll position
-            setTimeout(() => {
-                newSec.scrollTop = scrollMem[tabId] || 0; 
-                if(tabId === 'physics') resizeCanvas();
-                if(tabId === 'stats' && document.getElementById('statsResult').classList.contains('open')) resizeDistCanvas();
-            }, 10);
+            if(tabId === 'physics') resizeCanvas();
+            if(tabId === 'stats' && document.getElementById('statsResult').classList.contains('open')) resizeDistCanvas();
         }
 
         function setTheme(mode) {
@@ -1019,7 +994,7 @@
                 promptEN = `T-Test (1 Sample): Value ${val}. Provide a brief interpretation of whether this indicates a significant difference.`;
             } else if (type === 'vec') {
                 const res = document.getElementById('resR').innerText, ang = document.getElementById('resTheta').innerText;
-                promptID = `Vektor 2D: Resultan Gaya = ${res} N pada arah ${ang} derajat. Berikan interpretasi fisik/nyata tentang besaran gaya ini (contoh, setara beban apa).`;
+                promptID = `Vektor 2D: Resultan Gaya = ${res} N pada arah ${ang} derajat. Berikan interpretasi fisik/nyata tentang besaran gaya ini (contoh, setara menahan beban apa).`;
                 promptEN = `2D Vector: Resultant Force = ${res} N at ${ang} degrees. Provide a practical physical interpretation of this force magnitude.`;
             }
 
@@ -1083,6 +1058,31 @@
             document.getElementById('binomResult').innerText = "P = " + ((fact(n) / (fact(k) * fact(n - k))) * Math.pow(p, k) * Math.pow(1 - p, n - k)).toPrecision(5); openMorph('binomResWrapper');
         }
 
+        function calcPoisson() {
+            const lam = parseFloat(document.getElementById('poisLam').value), k = parseInt(document.getElementById('poisK').value);
+            if(isNaN(lam) || isNaN(k) || k < 0 || lam < 0) return alert("Input Poisson tidak valid!");
+            // P(X=k) = (e^-lambda * lambda^k) / k!
+            const p = Math.exp(-lam) * Math.pow(lam, k) / fact(k);
+            document.getElementById('poissonResult').innerText = "P = " + p.toPrecision(5);
+            openMorph('poissonResWrapper');
+        }
+
+        function calcPercentile() {
+            const raw = document.getElementById('percData').value;
+            const data = raw.replace(/[^0-9.,\s-]/g, '').split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+            const p = parseInt(document.getElementById('percP').value);
+            if(data.length < 2 || isNaN(p) || p < 1 || p > 99) return alert("Dataset minimal 2 angka, Persentil 1-99!");
+            
+            data.sort((a,b) => a-b);
+            const index = (p / 100) * (data.length - 1);
+            const lower = Math.floor(index), upper = Math.ceil(index);
+            const weight = index - lower;
+            const val = data[lower] + weight * (data[upper] - data[lower]);
+
+            document.getElementById('percResult').innerText = "P" + p + " = " + val.toPrecision(5);
+            openMorph('percResWrapper');
+        }
+
         function calcTTest() {
             const x = parseFloat(document.getElementById('ttestMean').value), u = parseFloat(document.getElementById('ttestPop').value), s = parseFloat(document.getElementById('ttestStd').value), n = parseFloat(document.getElementById('ttestN').value);
             if(isNaN(x)||isNaN(u)||isNaN(s)||isNaN(n) || n<=1 || s===0) return alert(t('alert_ttest'));
@@ -1134,19 +1134,38 @@
             } else { calcExpr += val; display.innerText = calcExpr.replace(/\*/g, '×').replace(/\//g, '÷').replace(/-/g, '−'); }
         }
 
+        function getSafeFunc(funcStr) {
+            return funcStr.replace(/\^/g, '**').replace(/sin/g, 'Math.sin').replace(/cos/g, 'Math.cos').replace(/tan/g, 'Math.tan').replace(/exp/g, 'Math.exp').replace(/sqrt/g, 'Math.sqrt').replace(/log/g, 'Math.log');
+        }
+
         function calcIntegral() {
             const funcStr = document.getElementById('intFunc').value, a = parseFloat(document.getElementById('intA').value), b = parseFloat(document.getElementById('intB').value);
             if(!funcStr || isNaN(a) || isNaN(b) || a >= b) return alert(t('alert_int'));
-            const f = (x) => {
-                try { 
-                    // Menggunakan ** sebagai pengganti ^ untuk pangkat di JS agar lebih handal
-                    let safeFunc = funcStr.replace(/\^/g, '**').replace(/sin/g, 'Math.sin').replace(/cos/g, 'Math.cos').replace(/tan/g, 'Math.tan').replace(/exp/g, 'Math.exp').replace(/sqrt/g, 'Math.sqrt').replace(/log/g, 'Math.log');
-                    return Function('x', `"use strict"; return (${safeFunc});`)(x); 
-                } catch(e) { return NaN; }
-            };
+            const f = (x) => { try { return Function('x', `"use strict"; return (${getSafeFunc(funcStr)});`)(x); } catch(e) { return NaN; } };
             const n = 100, h = (b - a) / n; let sum = f(a) + f(b);
             for (let i = 1; i < n; i++) { const val = f(a + i * h); if(isNaN(val)) return alert(t('alert_int_func')); sum += i % 2 === 0 ? 2 * val : 4 * val; }
             document.getElementById('intResult').innerText = "≈ " + ((h / 3) * sum).toFixed(4); openMorph('intResWrapper');
+        }
+
+        function calcDerivative() {
+            const funcStr = document.getElementById('derivFunc').value, xVal = parseFloat(document.getElementById('derivX').value);
+            if(!funcStr || isNaN(xVal)) return alert("Input tidak valid!");
+            const f = (x) => { try { return Function('x', `"use strict"; return (${getSafeFunc(funcStr)});`)(x); } catch(e) { return NaN; } };
+            const h = 1e-5;
+            const grad = (f(xVal + h) - f(xVal - h)) / (2 * h);
+            if(isNaN(grad)) return alert(t('alert_int_func'));
+            document.getElementById('derivResult').innerText = "f'(" + xVal + ") ≈ " + grad.toFixed(4); openMorph('derivResWrapper');
+        }
+
+        function calcFPBKPK() {
+            const raw = document.getElementById('lcmInput').value.replace(/[^0-9,\s]/g, '').split(/[\s,]+/).map(Number).filter(n => !isNaN(n) && n > 0);
+            if(raw.length < 2) return alert("Masukkan minimal 2 angka bulat positif!");
+            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+            const lcm = (a, b) => (a * b) / gcd(a, b);
+            let resGCD = raw[0], resLCM = raw[0];
+            for(let i=1; i<raw.length; i++) { resGCD = gcd(resGCD, raw[i]); resLCM = lcm(resLCM, raw[i]); }
+            document.getElementById('resFPB').innerText = resGCD; document.getElementById('resKPK').innerText = resLCM;
+            openMorph('lcmResWrapper');
         }
 
         function calcSequence(type) {
@@ -1167,6 +1186,28 @@
             const v = (id) => parseFloat(document.getElementById(id).value) || 0;
             const a=v('spA'), b=v('spB'), c=v('spC'), d=v('spD'), e=v('spE'), f=v('spF'), D = (a * e) - (b * d), Dx = (c * e) - (b * f), Dy = (a * f) - (c * d), res = document.getElementById('spldvResult');
             if (D === 0) res.innerHTML = (Dx === 0 && Dy === 0) ? `<span class="text-primary">Berhimpit</span>` : `<span class="text-error">Sejajar</span>`; else res.innerHTML = `<div class="grid grid-cols-2 gap-2 w-full"><div class="bg-surfaceVariant p-3 rounded-xl">x = <span class="text-primary font-black">${(Dx/D).toFixed(3).replace(/\.?0+$/,'')}</span></div><div class="bg-surfaceVariant p-3 rounded-xl">y = <span class="text-primary font-black">${(Dy/D).toFixed(3).replace(/\.?0+$/,'')}</span></div></div>`;
+        }
+
+        function solveSPLTV() {
+            const v = (id) => parseFloat(document.getElementById(id).value) || 0;
+            const m = [
+                [v('s3A'), v('s3B'), v('s3C'), v('s3D')],
+                [v('s3E'), v('s3F'), v('s3G'), v('s3H')],
+                [v('s3I'), v('s3J'), v('s3K'), v('s3L')]
+            ];
+            const det3 = (matrix) => {
+                return matrix[0][0]*(matrix[1][1]*matrix[2][2] - matrix[1][2]*matrix[2][1]) - 
+                       matrix[0][1]*(matrix[1][0]*matrix[2][2] - matrix[1][2]*matrix[2][0]) + 
+                       matrix[0][2]*(matrix[1][0]*matrix[2][1] - matrix[1][1]*matrix[2][0]);
+            };
+            const D = det3([ [m[0][0], m[0][1], m[0][2]], [m[1][0], m[1][1], m[1][2]], [m[2][0], m[2][1], m[2][2]] ]);
+            const Dx = det3([ [m[0][3], m[0][1], m[0][2]], [m[1][3], m[1][1], m[1][2]], [m[2][3], m[2][1], m[2][2]] ]);
+            const Dy = det3([ [m[0][0], m[0][3], m[0][2]], [m[1][0], m[1][3], m[1][2]], [m[2][0], m[2][3], m[2][2]] ]);
+            const Dz = det3([ [m[0][0], m[0][1], m[0][3]], [m[1][0], m[1][1], m[1][3]], [m[2][0], m[2][1], m[2][3]] ]);
+            
+            const res = document.getElementById('spltvResult');
+            if (D === 0) res.innerHTML = `<span class="text-error">Determinan = 0 (Solusi Tak Terhingga / Tidak Ada Solusi)</span>`; 
+            else res.innerHTML = `<div class="grid grid-cols-3 gap-2 w-full"><div class="bg-surfaceVariant p-3 rounded-xl">x=<span class="text-primary font-black">${(Dx/D).toFixed(2).replace(/\.?0+$/,'')}</span></div><div class="bg-surfaceVariant p-3 rounded-xl">y=<span class="text-primary font-black">${(Dy/D).toFixed(2).replace(/\.?0+$/,'')}</span></div><div class="bg-surfaceVariant p-3 rounded-xl">z=<span class="text-primary font-black">${(Dz/D).toFixed(2).replace(/\.?0+$/,'')}</span></div></div>`;
         }
 
         function solveQuadratic() {
@@ -1246,7 +1287,9 @@
         }
 
         // Satuan Engine & Rumus Raksasa Fisika
-        const unitLib = { m: {'m':1, 'cm':0.01, 'km':1000}, kg: {'kg':1, 'g':0.001}, v: {'m/s':1, 'km/h':0.277778}, a: {'m/s²':1, 'cm/s²':0.01}, t: {'K':1, '°C': 'C_TO_K'}, j: {'J':1, 'kJ':1000} };
+        const unitLib = { 
+            m: {'m':1, 'cm':0.01, 'km':1000}, kg: {'kg':1, 'g':0.001}, v: {'m/s':1, 'km/h':0.277778}, a: {'m/s²':1, 'cm/s²':0.01}, t: {'K':1, '°C': 'C_TO_K'}, j: {'J':1, 'kJ':1000}, area: {'m²':1, 'cm²':0.0001}, vol: {'m³':1, 'liter':0.001} 
+        };
         const formulas = [
             { id: 'usaha', name: 'Usaha (Work)', sym: 'W = F.s', baseRes: 'J', 
               desc: {id: 'Menghitung energi yang disalurkan oleh gaya.', en: 'Calculate energy transferred by force.'},
@@ -1267,7 +1310,7 @@
             { id: 'gasideal', name: 'Gas Ideal (Tekanan)', sym: 'P = nRT/V', baseRes: 'Pa', 
               desc: {id: 'Mencari tekanan gas ideal berdasarkan suhu, mol, dan volume.', en: 'Finds ideal gas pressure based on temp, moles, and volume.'},
               ex: {id: '2 mol gas di wadah 1m³ pada suhu 300K.', en: '2 moles in 1m³ container at 300K.'},
-              inputs: [ { id: 'n', label: 'Mol (n)' }, { id: 't', label: 'Suhu', type: 't' }, { id: 'v', label: 'Volume (m³)' } ], calc: (args) => { if(args[2]===0) return 0; return (args[0] * 8.314 * args[1]) / args[2]; }, sci: true },
+              inputs: [ { id: 'n', label: 'Mol (n)' }, { id: 't', label: 'Suhu', type: 't' }, { id: 'v', label: 'Volume', type: 'vol' } ], calc: (args) => { if(args[2]===0) return 0; return (args[0] * 8.314 * args[1]) / args[2]; }, sci: true },
             { id: 'doppler', name: 'Efek Doppler', sym: 'fp = (v±vp)/(v±vs)*fs', baseRes: 'Hz', 
               desc: {id: 'Pergeseran frekuensi bunyi. (Kec. positif jika saling mendekat).', en: 'Frequency shift due to relative motion.'},
               ex: {id: 'Ambulans (vs=20) mendekati orang diam (vp=0). v bunyi 340.', en: 'Ambulance (vs=20) approaches stationary person (vp=0). v sound 340.'},
@@ -1275,7 +1318,23 @@
             { id: 'coulomb', name: 'Hukum Coulomb', sym: 'F = k(q₁q₂)/r²', baseRes: 'N', 
               desc: {id: 'Gaya tarik/tolak antara dua muatan listrik (k = 9×10⁹).', en: 'Force between two electrical charges (k = 9×10⁹).'},
               ex: {id: 'Muatan 1C dan 2C terpisah jarak 3m.', en: '1C and 2C charges separated by 3m.'},
-              inputs: [ { id: 'q1', label: 'Muatan 1 (Coulomb)' }, { id: 'q2', label: 'Muatan 2 (Coulomb)' }, { id: 'r', label: 'Jarak (m)', type: 'm' } ], calc: (args) => { if(args[2]===0) return 0; return (8.987e9 * args[0] * args[1]) / Math.pow(args[2], 2); }, sci: true }
+              inputs: [ { id: 'q1', label: 'Muatan 1 (Coulomb)' }, { id: 'q2', label: 'Muatan 2 (Coulomb)' }, { id: 'r', label: 'Jarak (m)', type: 'm' } ], calc: (args) => { if(args[2]===0) return 0; return (8.987e9 * args[0] * args[1]) / Math.pow(args[2], 2); }, sci: true },
+            { id: 'stefan', name: 'Radiasi Benda Hitam', sym: 'P = eσAT⁴', baseRes: 'Watt', 
+              desc: {id: 'Hukum Stefan-Boltzmann untuk daya radiasi panas (σ = 5.67×10⁻⁸).', en: 'Stefan-Boltzmann law for thermal radiation power.'},
+              ex: {id: 'Benda emisivitas 0.8 luas 2m² suhu 500K.', en: 'Object emissivity 0.8 area 2m² temp 500K.'},
+              inputs: [ { id: 'e', label: 'Emisivitas (0-1)' }, { id: 'a', label: 'Luas', type: 'area' }, { id: 't', label: 'Suhu', type: 't' } ], calc: (args) => { return args[0] * 5.67e-8 * args[1] * Math.pow(args[2], 4); }, sci: true },
+            { id: 'kapasitor', name: 'Kapasitansi Pelat', sym: 'C = ε₀A/d', baseRes: 'F', 
+              desc: {id: 'Kapasitansi keping sejajar di ruang hampa (ε₀ = 8.85×10⁻¹²).', en: 'Parallel plate capacitance in vacuum (ε₀ = 8.85×10⁻¹²).'},
+              ex: {id: 'Pelat luas 0.01m² jarak 0.002m.', en: 'Plates area 0.01m² distance 0.002m.'},
+              inputs: [ { id: 'a', label: 'Luas', type: 'area' }, { id: 'd', label: 'Jarak (d)', type: 'm' } ], calc: (args) => { if(args[1]===0) return 0; return (8.854e-12 * args[0]) / args[1]; }, sci: true },
+            { id: 'archimedes', name: 'Gaya Apung (Archimedes)', sym: 'Fa = ρgV', baseRes: 'N', 
+              desc: {id: 'Gaya angkat ke atas oleh fluida pada benda tercelup.', en: 'Buoyant force exerted by a fluid on a submerged object.'},
+              ex: {id: 'Volume tercelup 0.5m³ di air (ρ=1000).', en: '0.5m³ submerged volume in water (ρ=1000).'},
+              inputs: [ { id: 'rho', label: 'Massa Jenis (kg/m³)' }, { id: 'v', label: 'Volume Tercelup', type: 'vol' } ], calc: (args) => args[0] * 9.8 * args[1], sci: true },
+            { id: 'hooke', name: 'Hukum Hooke (Pegas)', sym: 'F = k.Δx', baseRes: 'N', 
+              desc: {id: 'Gaya pemulih pada pegas yang diregangkan/ditekan.', en: 'Restoring force of a stretched/compressed spring.'},
+              ex: {id: 'Pegas k=200 ditarik sejauh 0.1m.', en: 'Spring k=200 pulled by 0.1m.'},
+              inputs: [ { id: 'k', label: 'Konstanta Pegas (N/m)' }, { id: 'dx', label: 'Perpindahan', type: 'm' } ], calc: (args) => args[0] * args[1] }
         ];
 
         function renderFormulas() {
