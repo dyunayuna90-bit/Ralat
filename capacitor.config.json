@@ -2,5 +2,10 @@
   "appId": "com.aplikasi.baru", 
   "appName": "Ralat",
   "webDir": "www",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": true
+    }
+  }
 }
