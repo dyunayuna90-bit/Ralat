@@ -80,8 +80,22 @@
     
         .o-x { display: block; overflow-x: auto; max-width: 100%; -ms-overflow-style: none; scrollbar-width: none; }
         .o-x::-webkit-scrollbar { display: none; }
+        /* Override MathQuill M3 Style */
+        .mq-editable-field { background-color: var(--md-surface); color: var(--md-on-surface); border-radius: 20px !important; border: none !important; box-shadow: none !important; padding: 1rem !important; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 1.25rem; width: 100%; display: block; transition: all 0.3s; }
+        .mq-editable-field.mq-focused { background-color: var(--md-primary-container) !important; color: var(--md-on-primary-container) !important; border-radius: 8px !important; }
+        .mq-math-mode .mq-root-block { overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+        .mq-math-mode .mq-root-block::-webkit-scrollbar { display: none; }
+        /* Quick Buttons M3 */
+        .qb-wrap { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; scrollbar-width: none; }
+        .qb-wrap::-webkit-scrollbar { display: none; }
+        .quick-btn { transition: transform 0.2s cubic-bezier(0.2,0,0,1), background 0.2s, border-radius 0.2s; background: var(--md-surface-variant); color: var(--md-primary); font-weight: 900; font-family: 'JetBrains Mono', monospace; border-radius: 12px; padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; user-select: none; }
+        .quick-btn:active { transform: scale(0.85); background: var(--md-primary); color: var(--md-on-primary); border-radius: 8px; }
 
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
 </head>
 <body class="font-sans antialiased h-screen flex flex-col relative overflow-hidden">
 
@@ -248,6 +262,36 @@
                     <button class="calc-btn w-full bg-primary text-onPrimary mt-2 py-4 text-3xl rounded-[1.5rem]" onclick="calcAction('=')">=</button>
                 </div>
             </div>
+            <div id="t_math_cas" class="bg-surfaceVariant rounded-[2.5rem] rounded-bl-xl p-5 mb-4 card-morph">
+                <div class="flex justify-between items-center mb-3"><h3 class="font-black text-xl flex items-center gap-2"><i data-lucide="function-square" class="w-6 h-6 text-primary"></i> <span>Aljabar Simbolik</span></h3><button onclick="toggleCardInfo('math_cas')" class="p-2 bg-surface rounded-xl text-primary btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button></div>
+                <div id="info_math_cas" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-5 bg-surface rounded-[1.5rem] rounded-tr-md text-sm"><p class="font-black text-primary mb-1 uppercase tracking-wide">Maksud & Kegunaan:</p><p class="font-medium opacity-90 mb-3">Eksekusi turunan analitik dan penyederhanaan ekspresi tanpa evaluasi desimal. Murni menggunakan manipulasi string fungsi.</p><p class="font-black text-primary mb-1 uppercase tracking-wide">Contoh:</p><p class="font-mono font-black opacity-90">d/dx (x^2 + 2x) -> 2*x + 2</p></div></div></div>
+                
+                <div class="qb-wrap">
+                    <button class="quick-btn" onclick="injectMQ('casMQ', '\\sqrt{}')">√</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', '\\pi')">π</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', 'x')">x</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', 'y')">y</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', '^2')">□²</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', '^')">□ʸ</button>
+                    <button class="quick-btn" onclick="injectMQ('casMQ', '\\left(\\right)')">( )</button>
+                </div>
+                
+                <span id="casMQ" class="w-full mb-4"></span>
+                <input type="hidden" id="casInput">
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="execCAS('simplify')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-black py-4 rounded-[1.5rem] rounded-tl-md text-sm uppercase tracking-widest">Sederhanakan</button>
+                    <button onclick="execCAS('derive')" class="btn-morph bg-primary text-onPrimary font-black py-4 rounded-[1.5rem] rounded-br-md text-sm uppercase tracking-widest flex items-center justify-center gap-2"><i data-lucide="trending-up" class="w-5 h-5"></i> Turunkan (x)</button>
+                </div>
+                
+                <div id="casResWrapper" class="morph-container mt-4"><div class="morph-inner flex flex-col gap-3">
+                    <div class="bg-surface p-6 rounded-[2rem] rounded-br-xl relative overflow-hidden flex flex-col justify-center min-h-[100px]">
+                        <span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-2 text-primary z-10" id="casResLabel">Hasil Ekspresi</span>
+                        <span id="casResultMQ" class="z-10 w-full text-primary"></span>
+                        <i data-lucide="brain-circuit" class="absolute -right-4 top-4 w-24 h-24 opacity-10"></i>
+                    </div>
+                </div></div>
+            </div>
 
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <button onclick="openModal('spldvModal')" class="btn-morph bg-primaryContainer text-onPrimaryContainer font-black py-8 rounded-[2rem] rounded-tl-md flex flex-col items-center gap-4"><i data-lucide="square-equal" class="text-primary w-10 h-10"></i> <span class="text-lg">SPLDV</span></button>
@@ -269,7 +313,19 @@
             <div id="t_math_root" class="bg-surfaceVariant rounded-[2.5rem] rounded-bl-xl p-5 mb-4 card-morph">
                 <div class="flex justify-between items-center mb-3"><h3 class="font-black text-xl flex items-center gap-2"><i data-lucide="crosshair" class="w-6 h-6 text-primary"></i> <span data-i18n="math_root">Akar Newton</span></h3><button onclick="toggleCardInfo('math_root')" class="p-2 bg-surface rounded-xl text-primary btn-morph"><i data-lucide="info" class="w-5 h-5"></i></button></div>
                 <div id="info_math_root" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-5 bg-surface rounded-[1.5rem] rounded-tr-md text-sm"><p class="font-black text-primary mb-1 uppercase tracking-wide" data-i18n="info_purpose"></p><p class="font-medium opacity-90 mb-3" data-i18n="info_math_root_desc"></p><p class="font-black text-primary mb-1 uppercase tracking-wide" data-i18n="info_example"></p><p class="font-mono font-black opacity-90" data-i18n="info_math_root_ex"></p></div></div></div>
-                <div class="flex gap-2 mb-3"><div class="bg-surface rounded-[1.5rem] p-4 font-mono font-black flex items-center justify-center text-primary text-lg">f(x)=</div><input type="text" id="rootFunc" placeholder="x^3 - 2*x + 2" class="w-full p-4 font-mono font-black text-lg"></div>
+                <div class="qb-wrap">
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '\\sin\\left(\\right)')">sin</button>
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '\\cos\\left(\\right)')">cos</button>
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '\\sqrt{}')">√</button>
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '\\pi')">π</button>
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '^2')">x²</button>
+                    <button class="quick-btn" onclick="injectMQ('plotFuncMQ', '\\frac{}{}')">a/b</button>
+                </div>
+                <div class="flex gap-2 mb-4"><div class="bg-surface rounded-[1.5rem] p-4 font-mono font-black flex items-center justify-center text-primary text-lg">f(x)=</div>
+                    <span id="plotFuncMQ" class="w-full"></span>
+                    <input type="hidden" id="plotFunc">
+                </div>
+
                 <input type="number" id="rootGuess" placeholder="Tebakan Awal (x₀)" class="w-full p-4 font-mono font-black text-lg mb-4 text-center">
                 <button onclick="calcRoot()" class="btn-morph w-full bg-primaryContainer text-onPrimaryContainer font-black py-4 rounded-[1.5rem] text-sm tracking-wide">Eksekusi Newton-Raphson</button>
                 <div id="rootResWrapper" class="morph-container"><div class="morph-inner flex flex-col gap-3 mt-4"><div class="bg-primary text-onPrimary p-6 rounded-[2rem] rounded-br-xl relative overflow-hidden min-h-[120px] flex flex-col justify-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-80 mb-2 z-10">Konvergensi Akar</span><span class="font-mono font-black text-4xl z-10 relative" id="rootResult">-</span><i data-lucide="focus" class="absolute -right-4 -bottom-4 w-24 h-24 opacity-20"></i></div><div id="rootAiWrap"></div></div></div>
@@ -576,6 +632,61 @@
 
     <script>
         const apiKeyEnv = ""; lucide.createIcons();
+        // Konfigurasi Math.js untuk Arbitrary-Precision (BigNumber)
+        math.config({ number: 'BigNumber', precision: 64 });
+        
+        // Inisialisasi MathQuill Global
+        const MQ = MathQuill.getInterface(2);
+        let mqInstances = {};
+
+        function initMathQuill() {
+            const casEl = document.getElementById('casMQ');
+            if(casEl) {
+                mqInstances['casMQ'] = MQ.MathField(casEl, {
+                    spaceBehavesLikeTab: true,
+                    handlers: { edit: function() { document.getElementById('casInput').value = mqInstances['casMQ'].text(); } }
+                });
+            }
+            const plotEl = document.getElementById('plotFuncMQ');
+            if(plotEl) {
+                mqInstances['plotFuncMQ'] = MQ.MathField(plotEl, {
+                    spaceBehavesLikeTab: true,
+                    handlers: { edit: function() { document.getElementById('plotFunc').value = mqInstances['plotFuncMQ'].text(); } }
+                });
+            }
+            const casOutEl = document.getElementById('casResultMQ');
+            if(casOutEl) {
+                mqInstances['casResultMQ'] = MQ.StaticMath(casOutEl);
+            }
+        }
+
+        function injectMQ(id, latexStr) {
+            if(!mqInstances[id]) return;
+            mqInstances[id].write(latexStr);
+            mqInstances[id].focus();
+        }
+
+        function execCAS(action) {
+            const expr = document.getElementById('casInput').value;
+            if(!expr) return throwErr('casResultMQ', 'Ekspresi kosong');
+            let res = '';
+            try {
+                if(action === 'derive') {
+                    res = math.derivative(expr, 'x').toString();
+                    document.getElementById('casResLabel').innerText = "Turunan d/dx";
+                } else if (action === 'simplify') {
+                    res = math.simplify(expr).toString();
+                    document.getElementById('casResLabel').innerText = "Penyederhanaan Analitik";
+                }
+                const node = math.parse(res);
+                const latexOut = node.toTex({parenthesis: 'auto'});
+                mqInstances['casResultMQ'].latex(latexOut);
+                openMorph('casResWrapper');
+                logRecent('t_math_cas', `${action}: Diselesaikan`);
+            } catch (e) {
+                throwErr('casResultMQ', 'Sintaks ekspresi gagal di-parse');
+            }
+        }
 
         const PHYSICS_CONSTANTS = {
             g: 9.8,
@@ -961,7 +1072,25 @@
         let calcExpr="", isDegMode=true;
         function toggleDegRad() { isDegMode=!isDegMode; document.getElementById('btnDegRad').innerText=isDegMode?"DEG":"RAD"; }
         const ME = { sin:x=>Math.sin(isDegMode?x*Math.PI/180:x), cos:x=>Math.cos(isDegMode?x*Math.PI/180:x), tan:x=>Math.tan(isDegMode?x*Math.PI/180:x), asin:x=>isDegMode?Math.asin(x)*180/Math.PI:Math.asin(x), acos:x=>isDegMode?Math.acos(x)*180/Math.PI:Math.acos(x), atan:x=>isDegMode?Math.atan(x)*180/Math.PI:Math.atan(x), sqrt:Math.sqrt, pi:Math.PI, e:Math.E };
-        function calcAction(v) { const d=document.getElementById('calcDisplay'); if(v==='C'){calcExpr="";d.innerText="0";} else if(v==='DEL'){calcExpr=calcExpr.slice(0,-1);d.innerText=calcExpr||"0";} else if(v==='='){try{let s=calcExpr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\^/g,'**').replace(/π/g,'pi').replace(/(sin|cos|tan|asin|acos|atan|sqrt|pi|e)/g,'ME.$1'); let r=Function('ME',`"use strict";return (${s})`)(ME); if(!isFinite(r))throw "E"; calcExpr=r.toString(); if(calcExpr.includes('.'))calcExpr=parseFloat(calcExpr).toFixed(6).replace(/\.?0+$/,''); d.innerText=calcExpr; logRecent('t_math_calc', `Res=${calcExpr}`);}catch(e){d.innerText="Error";calcExpr="";}} else {calcExpr+=v; d.innerText=calcExpr.replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−');} }
+        function calcAction(v) { 
+            const d=document.getElementById('calcDisplay'); 
+            if(v==='C'){calcExpr="";d.innerText="0";} 
+            else if(v==='DEL'){calcExpr=calcExpr.slice(0,-1);d.innerText=calcExpr||"0";} 
+            else if(v==='='){
+                try{
+                    let s=calcExpr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-'); 
+                    let r = math.evaluate(s);
+                    calcExpr = math.format(r, {notation: 'fixed', precision: 14}).replace(/\.?0+$/, '');
+                    d.innerText=calcExpr; 
+                    logRecent('t_math_calc', `Res=${calcExpr}`);
+                } catch(e) {
+                    d.innerText="Error";calcExpr="";
+                }
+            } else {
+                calcExpr+=v; d.innerText=calcExpr.replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−');
+            } 
+        }
+
         function clearTriangle() { ['triA','triB','triC','triAngA','triAngB','triAngC'].forEach(i=>document.getElementById(i).value=''); closeMorph('triResWrapper'); }
         function solveTriangle() { const r=(v)=>isNaN(parseFloat(v))?null:parseFloat(v); let a=r(document.getElementById('triA').value), b=r(document.getElementById('triB').value), c=r(document.getElementById('triC').value), A=r(document.getElementById('triAngA').value), B=r(document.getElementById('triAngB').value), C=r(document.getElementById('triAngC').value); const tR=d=>d*Math.PI/180, tD=rd=>rd*180/Math.PI; let s=false; for(let i=0;i<5;i++){ if(A!==null&&B!==null&&C===null)C=180-A-B; if(A!==null&&C!==null&&B===null)B=180-A-C; if(B!==null&&C!==null&&A===null)A=180-B-C; if(a&&A&&b&&!B)B=tD(Math.asin((b*Math.sin(tR(A)))/a)); if(a&&A&&c&&!C)C=tD(Math.asin((c*Math.sin(tR(A)))/a)); if(b&&B&&a&&!A)A=tD(Math.asin((a*Math.sin(tR(B)))/b)); if(b&&B&&c&&!C)C=tD(Math.asin((c*Math.sin(tR(B)))/b)); if(c&&C&&a&&!A)A=tD(Math.asin((a*Math.sin(tR(C)))/c)); if(c&&C&&b&&!B)B=tD(Math.asin((b*Math.sin(tR(C)))/c)); if(a&&A&&B&&!b)b=(a*Math.sin(tR(B)))/Math.sin(tR(A)); if(a&&A&&C&&!c)c=(a*Math.sin(tR(C)))/Math.sin(tR(A)); if(b&&B&&A&&!a)a=(b*Math.sin(tR(A)))/Math.sin(tR(B)); if(b&&B&&C&&!c)c=(b*Math.sin(tR(C)))/Math.sin(tR(B)); if(c&&C&&A&&!a)a=(c*Math.sin(tR(A)))/Math.sin(tR(C)); if(c&&C&&B&&!b)b=(c*Math.sin(tR(B)))/Math.sin(tR(C)); if(a&&b&&C&&!c)c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(tR(C))); if(a&&c&&B&&!b)b=Math.sqrt(a*a+c*c-2*a*c*Math.cos(tR(B))); if(b&&c&&A&&!a)a=Math.sqrt(b*b+c*c-2*b*c*Math.cos(tR(A))); if(a&&b&&c&&!A)A=tD(Math.acos((b*b+c*c-a*a)/(2*b*c))); if(a&&b&&c&&!B)B=tD(Math.acos((a*a+c*c-b*b)/(2*a*c))); if(a&&b&&c&&!C)C=tD(Math.acos((a*a+b*b-c*c)/(2*a*b))); if(a&&b&&c&&A&&B&&C){s=true;break;} } const d=document.getElementById('triResult'); if(s){ const sm=(a+b+c)/2, ar=Math.sqrt(sm*(sm-a)*(sm-b)*(sm-c)); d.innerHTML=`<div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sisi a</span><span class="font-black text-xl text-primary block w-full o-x">${a.toFixed(2)}</span></div><div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sudut A</span><span class="font-black text-xl text-primary block w-full o-x">${A.toFixed(2)}°</span></div><div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sisi b</span><span class="font-black text-xl text-primary block w-full o-x">${b.toFixed(2)}</span></div><div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sudut B</span><span class="font-black text-xl text-primary block w-full o-x">${B.toFixed(2)}°</span></div><div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sisi c</span><span class="font-black text-xl text-primary block w-full o-x">${c.toFixed(2)}</span></div><div class="bg-surface p-4 rounded-[1.5rem] flex flex-col items-center"><span class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-1">Sudut C</span><span class="font-black text-xl text-primary block w-full o-x">${C.toFixed(2)}°</span></div><div class="bg-primaryContainer text-onPrimaryContainer p-5 rounded-[1.5rem] rounded-tl-md flex justify-between items-center col-span-2"><span class="text-[10px] font-black uppercase tracking-widest opacity-70">Luas / Keliling</span><span class="font-black text-xl">${ar.toFixed(2)} / ${(a+b+c).toFixed(2)}</span></div>`; logRecent('t_math_tri', `Luas=${ar.toFixed(2)}, Kel=${(a+b+c).toFixed(2)}`); document.getElementById('triAiWrap').innerHTML = getAIBtn(`Segitiga terselesaikan sempurna. Area = ${ar.toFixed(2)}. Apa kestabilan mekanik struktural bidang ini dr parameter rasio sisinya?`); lucide.createIcons(); }else d.innerHTML=`<div class="col-span-2 text-center text-error font-black bg-error/10 p-4 rounded-xl">Parameter Input Kurang/Salah</div>`; openMorph('triResWrapper'); }
         function calcRoot() { const s=document.getElementById('rootFunc').value; let x=safeParse('rootGuess','x0','rootResult'); if(!s)return; const f=(v)=>{try{return Function('x',`"use strict";return(${getSafeFunc(s)});`)(v);}catch(e){return NaN;}}, df=(v)=>(f(v+1e-5)-f(v-1e-5))/2e-5; let i=0; while(i<100){const y=f(x);if(Math.abs(y)<1e-7)break; const m=df(x);if(m===0)break; x=x-(y/m);i++;} const st=i===100||isNaN(x)?"Gagal":x.toFixed(5); document.getElementById('rootResult').innerHTML=i===100||isNaN(x)?`<span class="text-error">Gagal Konvergen</span>`:`x ≈ ${x.toFixed(5)}`; openMorph('rootResWrapper'); logRecent('t_math_root', `x=${st}`); document.getElementById('rootAiWrap').innerHTML=getAIBtn(`Iterasi nemu akar konvergen x=${st}. Buktiin scara kalkulus knp titik stasioner murni ga akan bs dieksekusi sm N-R. `); lucide.createIcons(); }
