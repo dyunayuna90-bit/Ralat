@@ -101,18 +101,58 @@
                 <div id="info_stats_basic" class="morph-container mb-3 info-accordion"><div class="morph-inner"><div class="p-4 bg-surface rounded-xl text-sm"><p class="font-bold text-primary mb-1" data-i18n="info_purpose"></p><p class="opacity-90 mb-3" data-i18n="info_stats_basic_desc"></p><p class="font-bold text-primary mb-1" data-i18n="info_example"></p><p class="font-mono font-bold opacity-90" data-i18n="info_stats_basic_ex"></p></div></div></div>
                 <textarea id="dataInput" rows="3" class="w-full bg-surface text-onSurface rounded-2xl p-4 resize-none font-mono"></textarea>
                 <button onclick="calculateStats()" class="btn-morph mt-4 w-full bg-primary text-onPrimary font-bold py-4 rounded-2xl flex items-center justify-center gap-2"><i data-lucide="calculator" class="w-5 h-5"></i> <span>Analisis Tunggal</span></button>
-                <div id="statsResult" class="morph-container mt-2"><div class="morph-inner"><div class="bg-primaryContainer text-onPrimaryContainer rounded-2xl p-4">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-2 text-sm">
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">N</p><p class="font-black text-lg" id="resN">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Mean (μ)</p><p class="font-black text-lg" id="resMean">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Deviasi (σ)</p><p class="font-black text-lg" id="resStd">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Median</p><p class="font-bold" id="resMedian">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Variansi</p><p class="font-bold" id="resVar">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Ralat (Δx)</p><p class="font-bold" id="resDeltaX">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Nisbi</p><p class="font-bold" id="resNisbi">-</p></div>
-                        <div class="bg-surface p-2 rounded-lg text-center"><p class="text-[10px] opacity-70">Modus</p><p class="font-bold" id="resMode">-</p></div>
+                
+                <!-- Hasil Material 3 Expressive -->
+                <div id="statsResult" class="morph-container mt-4">
+                    <div class="morph-inner flex flex-col gap-3">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-primary text-onPrimary p-5 rounded-[2rem] rounded-tr-xl flex flex-col items-start justify-between shadow-sm relative overflow-hidden">
+                                <span class="text-xs opacity-80 font-bold tracking-wide mb-2">Mean (μ)</span>
+                                <span class="text-3xl font-black z-10 break-all" id="resMean">-</span>
+                                <i data-lucide="activity" class="absolute -right-2 -bottom-2 w-16 h-16 opacity-10"></i>
+                            </div>
+                            <div class="bg-primaryContainer text-onPrimaryContainer p-5 rounded-[2rem] rounded-tl-xl flex flex-col items-start justify-between shadow-sm relative overflow-hidden">
+                                <span class="text-xs opacity-80 font-bold tracking-wide mb-2">Deviasi (σ)</span>
+                                <span class="text-3xl font-black z-10 break-all" id="resStd">-</span>
+                                <i data-lucide="waves" class="absolute -right-2 -bottom-2 w-16 h-16 opacity-10"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-br-md text-center flex flex-col justify-center items-center">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Total N</span>
+                                <span class="font-black text-xl text-primary" id="resN">-</span>
+                            </div>
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-b-md text-center flex flex-col justify-center items-center">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Median</span>
+                                <span class="font-black text-lg text-primary" id="resMedian">-</span>
+                            </div>
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-bl-md text-center flex flex-col justify-center items-center overflow-hidden">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Modus</span>
+                                <span class="font-bold text-sm text-primary truncate w-full" id="resMode">-</span>
+                            </div>
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-tr-md text-center flex flex-col justify-center items-center">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Variansi</span>
+                                <span class="font-bold text-sm text-primary" id="resVar">-</span>
+                            </div>
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-t-md text-center flex flex-col justify-center items-center">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Ralat Δx</span>
+                                <span class="font-bold text-sm text-primary" id="resDeltaX">-</span>
+                            </div>
+                            <div class="bg-surface p-3 rounded-[1.5rem] rounded-tl-md text-center flex flex-col justify-center items-center">
+                                <span class="text-[10px] opacity-50 font-bold uppercase tracking-widest mb-1">Nisbi</span>
+                                <span class="font-bold text-sm text-primary" id="resNisbi">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full aspect-[2/1] relative bg-surface rounded-[2rem] overflow-hidden shadow-sm border border-outline/5">
+                            <canvas id="distCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                            <div class="absolute top-3 left-4 text-[10px] font-black uppercase tracking-widest opacity-40">Kurva Gauss</div>
+                        </div>
+                        <div id="statsAiWrap"></div>
                     </div>
-                    <div class="w-full aspect-[2/1] relative mt-3 bg-surface rounded-xl overflow-hidden"><canvas id="distCanvas" class="absolute top-0 left-0 w-full h-full"></canvas></div><div id="statsAiWrap"></div></div></div></div>
+                </div>
+                <!-- End Material 3 Expressive -->
             </div>
 
             <div id="t_stats_prop" class="bg-surfaceVariant rounded-[2rem] p-5 mb-4 card-morph">
